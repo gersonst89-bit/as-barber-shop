@@ -6,7 +6,7 @@ Sistema web comercial y de gestión operativa para **A&S Barber Shop**, barberí
 
 ## 🛠️ Stack Tecnológico
 
-- **Backend:** Java 17+, Spring Boot 3.x, Spring Data JPA, Spring Security 6 (Autenticación JWT Stateless).
+- **Backend:** Java 25 (OpenJDK 25 LTS), Spring Boot, Spring Data JPA, Spring Security 6 (Autenticación JWT Stateless).
 - **Base de Datos:** MySQL 8.0 (14 tablas normalizadas con integridad referencial y auditoría).
 - **Frontend:** HTML5 Semántico, Tailwind CSS (Paleta Dark Luxury `#0a0908` con acentos en Cyan Eléctrico `#06b6d4`), JavaScript Vanilla (ES6+ modular y asíncrono con `fetch`).
 - **Integraciones:** Google Maps interactivo oficial, Botón directo de WhatsApp con saludo automático, Libro de Reclamaciones Virtual conforme a la normativa de INDECOPI (Perú) y distintivos de medios de pago locales (Yape, Plin, Tarjetas, Efectivo).
@@ -58,7 +58,7 @@ Sistema web comercial y de gestión operativa para **A&S Barber Shop**, barberí
 ## 🚀 Requisitos y Puesta en Marcha
 
 ### Prerrequisitos:
-- **Java JDK 17** o superior instalado.
+- **Java JDK 25** (OpenJDK 25 LTS) instalado.
 - **MySQL Server 8.0** activo en `localhost:3306`.
 - **Apache Maven 3.8+** (o usar el wrapper `./mvnw` incluido).
 
@@ -134,3 +134,4 @@ as-barber-shop/
 - **Horario:** Lunes a Sábado de 10:00 am a 9:00 pm · Domingos de 10:00 am a 7:00 pm.
 - **RUC:** 10458923011
 - **Ficha en Google Maps:** [Barbershop A&S Miraflores](https://www.google.com/maps/place/Barbershop+A%26S/@-12.1188865,-77.0354794,17z/data=!3m1!4b1!4m6!3m5!1s0x9105c83d36c18abb:0xcae1c71719e24b5b!8m2!3d-12.1188865!4d-77.0354794!16s%2Fg%2F11c1w0_zq6)
+
