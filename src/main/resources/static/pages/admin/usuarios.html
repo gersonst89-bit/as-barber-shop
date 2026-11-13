@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-[#0a0908]">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Usuarios | Panel de Administración A&S</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dorado: {
+                            300: '#fed7aa',
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                            700: '#b45309',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="min-h-screen bg-[#0a0908] text-stone-100 flex flex-col font-sans selection:bg-amber-500 selection:text-black">
+
+    <div id="contenedor-avisos" class="fixed top-6 right-6 z-50 flex flex-col gap-3 max-w-md w-full px-4 pointer-events-none"></div>
+
+    <header class="w-full bg-[#0d0c0a]/95 border-b border-cyan-500/20 backdrop-blur-md sticky top-0 z-40 px-4 sm:px-8 py-3.5">
+        <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+            
+            <a href="/" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-full overflow-hidden border border-stone-700/80 group-hover:border-cyan-400 transition shrink-0">
+                    <img src="/img/logo-solo.png" alt="A&S Barber Shop" class="w-full h-full object-cover">
+                </div>
+                <div class="flex flex-col">
+                    <div class="flex items-center gap-2">
+                        <span class="text-sm font-black tracking-wider text-white uppercase group-hover:text-cyan-400 transition leading-none">A&S BARBER SHOP</span>
+                        <span class="px-2 py-0.5 rounded-full text-[9px] font-bold bg-amber-500/15 text-amber-400 border border-amber-500/30">
+                            ADMIN
+                        </span>
+                    </div>
+                    <span class="text-[9px] font-bold tracking-[0.2em] text-cyan-400 uppercase leading-none mt-1">PERSONAL & USUARIOS</span>
+                </div>
+            </a>
+
+            <div class="flex items-center gap-4">
+                <div class="hidden md:flex items-center gap-2 text-right">
+                    <div>
+                        <p id="nombre-admin-cabecera" class="text-xs font-bold text-white">Administrador General</p>
+                        <p class="text-[10px] text-cyan-400 font-semibold">admin@asbarbershop.pe</p>
+                    </div>
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-cyan-500 to-blue-700 text-stone-950 font-black flex items-center justify-center text-xs shadow-md">
+                        A
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <a href="/" class="px-3 py-1.5 rounded-xl border border-stone-800 hover:border-cyan-500 text-stone-300 text-xs font-semibold transition">
+                        ← Web Principal
+                    </a>
+                    <button 
+                        type="button" 
+                        id="btn-cerrar-sesion"
+                        class="px-3 py-1.5 rounded-xl border border-red-800/40 text-red-400 hover:bg-red-950/40 text-xs font-semibold transition cursor-pointer">
+                        Salir
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    <div class="w-full border-b border-stone-800 bg-[#0d0c0a] px-4 sm:px-8">
+        <div class="max-w-7xl mx-auto flex items-center gap-2 py-2 overflow-x-auto text-xs">
+            <a href="/pages/admin/dashboard.html" class="px-4 py-2 rounded-xl font-bold uppercase tracking-wider transition border border-transparent text-stone-400 hover:text-stone-200">
+                📊 Dashboard General
+            </a>
+            <a href="/pages/admin/usuarios.html" class="px-4 py-2 rounded-xl font-bold uppercase tracking-wider transition border bg-cyan-500/15 border-cyan-500/50 text-cyan-400">
+                👥 Personal & Usuarios
+            </a>
+            <a href="/pages/admin/servicios.html" class="px-4 py-2 rounded-xl font-bold uppercase tracking-wider transition border border-transparent text-stone-400 hover:text-stone-200">
+                ✂️ Catálogo de Servicios
+            </a>
+            <a href="/pages/admin/promociones.html" class="px-4 py-2 rounded-xl font-bold uppercase tracking-wider transition border border-transparent text-stone-400 hover:text-stone-200">
+                🏷️ Promociones & Cupones
+            </a>
+        </div>
+    </div>
+
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-8 py-6 space-y-6">
+        
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div class="bg-[#12100e] border border-amber-500/20 rounded-2xl p-4 shadow-lg flex items-center gap-4">
+                <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <p class="text-xs text-stone-400 font-medium uppercase tracking-wider">Total Usuarios</p>
+                    <p id="metrica-total-usuarios" class="text-2xl font-extrabold text-white mt-0.5">0</p>
+                </div>
+            </div>
+
+            <div class="bg-[#12100e] border border-blue-500/20 rounded-2xl p-4 shadow-lg flex items-center gap-4">
+                <div class="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.121 14.121L19 19m-7-7l7-7m-7 7l-2.879 2.879a3 3 0 11-4.242-4.242L10.758 10.758m0 0l-7-7m7 7l7 7"></path>
+                    </svg>
+                </div>
+                <div>
+                    <p class="text-xs text-stone-400 font-medium uppercase tracking-wider">Barberos Activos</p>
+                    <p id="metrica-barberos-activos" class="text-2xl font-extrabold text-blue-400 mt-0.5">0</p>
+                </div>
+            </div>
+
+            <div class="bg-[#12100e] border border-emerald-500/20 rounded-2xl p-4 shadow-lg flex items-center gap-4">
+                <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <p class="text-xs text-stone-400 font-medium uppercase tracking-wider">Clientes Registrados</p>
+                    <p id="metrica-clientes-registrados" class="text-2xl font-extrabold text-emerald-400 mt-0.5">0</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-[#12100e] border border-stone-800/90 rounded-2xl p-4 shadow-lg flex flex-col md:flex-row items-center justify-between gap-3 flex-wrap">
+            <div class="flex-1 w-full md:w-auto relative min-w-[240px]">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-stone-500">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </span>
+                <input 
+                    type="text" 
+                    id="campo-busqueda"
+                    placeholder="Buscar por nombre, correo o celular..."
+                    class="w-full bg-[#171513] border border-stone-700/60 focus:border-amber-500 rounded-xl py-2 pl-10 pr-4 text-xs sm:text-sm text-stone-100 placeholder:text-stone-500 outline-none transition shadow-inner">
+            </div>
+
+            <div class="flex items-center gap-2.5 w-full md:w-auto flex-wrap">
+                <select 
+                    id="filtro-rol"
+                    class="bg-[#171513] border border-stone-700/60 text-stone-300 rounded-xl px-3 py-2 text-xs outline-none focus:border-amber-500">
+                    <option value="TODOS">Todos los roles</option>
+                    <option value="ADMIN">Administradores</option>
+                    <option value="BARBERO">Barberos</option>
+                    <option value="CLIENTE">Clientes</option>
+                </select>
+
+                <select 
+                    id="filtro-estado"
+                    class="bg-[#171513] border border-stone-700/60 text-stone-300 rounded-xl px-3 py-2 text-xs outline-none focus:border-amber-500">
+                    <option value="TODOS">Todos los estados</option>
+                    <option value="ACTIVOS">Solo Activos</option>
+                    <option value="INACTIVOS">Solo Inactivos</option>
+                </select>
+
+                <button 
+                    type="button" 
+                    onclick="abrirModalCrearUsuario()"
+                    class="bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-stone-950 font-bold px-4 py-2 rounded-xl text-xs sm:text-sm flex items-center gap-2 shadow-lg shadow-amber-950/50 transition transform active:scale-95 cursor-pointer ml-auto">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path>
+                    </svg>
+                    <span>Registrar Usuario</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="bg-[#12100e] border border-stone-800/90 rounded-2xl shadow-xl overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="border-b border-stone-800 bg-[#161412] text-[11px] font-bold text-stone-400 uppercase tracking-wider">
+                            <th class="py-3 px-4">Usuario</th>
+                            <th class="py-3 px-4">Teléfono</th>
+                            <th class="py-3 px-4">Rol</th>
+                            <th class="py-3 px-4">Especialidad / Datos</th>
+                            <th class="py-3 px-4">Estado</th>
+                            <th class="py-3 px-4 text-right">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cuerpo-tabla-usuarios" class="divide-y divide-stone-800/40 text-stone-200">
+                        <tr>
+                            <td colspan="6" class="text-center py-12 text-stone-500 text-sm">
+                                Cargando usuarios...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+
+    <div id="modal-usuario" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4 overflow-y-auto">
+        <div class="w-full max-w-xl bg-[#12100e] border border-amber-500/40 rounded-3xl p-6 sm:p-8 shadow-2xl relative my-auto">
+            <div class="flex items-center justify-between pb-4 border-b border-stone-800">
+                <div class="flex items-center gap-2.5">
+                    <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+                    <h2 id="titulo-modal-usuario" class="text-lg font-bold text-white tracking-tight">Registrar Nuevo Usuario</h2>
+                </div>
+                <button 
+                    type="button" 
+                    onclick="cerrarModalCrearUsuario()"
+                    class="text-stone-400 hover:text-stone-100 p-1 rounded-lg transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <form id="formulario-crear-usuario" class="mt-5 space-y-3.5">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label for="crear-nombre" class="block text-[11px] font-medium text-stone-300 mb-1">
+                            Nombres *
+                        </label>
+                        <input 
+                            type="text" 
+                            id="crear-nombre" 
+                            required
+                            placeholder="Ej. Roberto"
+                            class="w-full bg-[#181614] border border-stone-700/80 focus:border-amber-500 rounded-xl px-3.5 py-2 text-xs sm:text-sm text-stone-100 placeholder:text-stone-500 outline-none transition">
+                    </div>
+                    <div>
+                        <label for="crear-apellido" class="block text-[11px] font-medium text-stone-300 mb-1">
+                            Apellidos *
+                        </label>
+                        <input 
+                            type="text" 
+                            id="crear-apellido" 
+                            required
+                            placeholder="Ej. Salazar Gómez"
+                            class="w-full bg-[#181614] border border-stone-700/80 focus:border-amber-500 rounded-xl px-3.5 py-2 text-xs sm:text-sm text-stone-100 placeholder:text-stone-500 outline-none transition">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label for="crear-correo" class="block text-[11px] font-medium text-stone-300 mb-1">
+                            Correo electrónico *
+                        </label>
+                        <input 
+                            type="email" 
+                            id="crear-correo" 
+                            required
+                            placeholder="usuario@ejemplo.com"
+                            class="w-full bg-[#181614] border border-stone-700/80 focus:border-amber-500 rounded-xl px-3.5 py-2 text-xs sm:text-sm text-stone-100 placeholder:text-stone-500 outline-none transition">
+                    </div>
+                    <div>
+                        <label for="crear-telefono" class="block text-[11px] font-medium text-stone-300 mb-1">
+                            Teléfono / Celular
+                        </label>
+                        <input 
+                            type="tel" 
+                            id="crear-telefono" 
+                            placeholder="999 888 777"
+                            class="w-full bg-[#181614] border border-stone-700/80 focus:border-amber-500 rounded-xl px-3.5 py-2 text-xs sm:text-sm text-stone-100 placeholder:text-stone-500 outline-none transition">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div id="bloque-clave">
+                        <label for="crear-clave" class="block text-[11px] font-medium text-stone-300 mb-1">
+                            Contraseña provisional *
+                        </label>
+                        <input 
+                            type="password" 
+                            id="crear-clave" 
+                            required
+                            minlength="6"
+                            placeholder="Mínimo 6 caracteres"
+                            class="w-full bg-[#181614] border border-stone-700/80 focus:border-amber-500 rounded-xl px-3.5 py-2 text-xs sm:text-sm text-stone-100 placeholder:text-stone-500 outline-none transition">
+                    </div>
+                    <div id="bloque-rol">
+                        <label for="crear-rol" class="block text-[11px] font-medium text-stone-300 mb-1">
+                            Rol del Usuario *
+                        </label>
+                        <select 
+                            id="crear-rol" 
+                            required
+                            class="w-full bg-[#181614] border border-stone-700/80 focus:border-amber-500 rounded-xl px-3.5 py-2 text-xs sm:text-sm text-stone-100 outline-none transition">
+                            <option value="BARBERO" selected>Barbero</option>
+                            <option value="ADMIN">Administrador</option>
+                            <option value="CLIENTE">Cliente</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="bloque-campos-barbero" class="space-y-3 p-3.5 rounded-2xl bg-amber-950/20 border border-amber-600/30">
+                    <p class="text-[11px] font-bold text-amber-400 uppercase tracking-wider">
+                        Datos del Barbero
+                    </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label for="crear-especialidad" class="block text-[11px] font-medium text-stone-300 mb-1">
+                                Especialidad
+                            </label>
+                            <input 
+                                type="text" 
+                                id="crear-especialidad" 
+                                placeholder="Ej. Corte Clásico y Barba"
+                                class="w-full bg-[#181614] border border-stone-700/80 focus:border-amber-500 rounded-xl px-3.5 py-2 text-xs sm:text-sm text-stone-100 placeholder:text-stone-500 outline-none transition">
+                        </div>
+                        <div>
+                            <label for="crear-comision" class="block text-[11px] font-medium text-stone-300 mb-1">
+                                Porcentaje de Comisión (%)
+                            </label>
+                            <input 
+                                type="number" 
+                                id="crear-comision" 
+                                min="0" 
+                                max="100" 
+                                step="1"
+                                placeholder="Ej. 40"
+                                class="w-full bg-[#181614] border border-stone-700/80 focus:border-amber-500 rounded-xl px-3.5 py-2 text-xs sm:text-sm text-stone-100 placeholder:text-stone-500 outline-none transition">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="bloque-campos-cliente" class="space-y-2 p-3.5 rounded-2xl bg-emerald-950/20 border border-emerald-600/30 hidden">
+                    <p class="text-[11px] font-bold text-emerald-400 uppercase tracking-wider">
+                        Datos del Cliente
+                    </p>
+                    <div>
+                        <label for="crear-preferencias" class="block text-[11px] font-medium text-stone-300 mb-1">
+                            Preferencias de corte (opcional)
+                        </label>
+                        <input 
+                            type="text" 
+                            id="crear-preferencias" 
+                            placeholder="Ej. Corte degradado bajo, afeitado con navaja"
+                            class="w-full bg-[#181614] border border-stone-700/80 focus:border-emerald-500 rounded-xl px-3.5 py-2 text-xs sm:text-sm text-stone-100 placeholder:text-stone-500 outline-none transition">
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-end gap-3 pt-3 border-t border-stone-800">
+                    <button 
+                        type="button" 
+                        onclick="cerrarModalCrearUsuario()"
+                        class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold text-stone-400 hover:text-stone-200 hover:bg-stone-800 transition">
+                        Cancelar
+                    </button>
+                    <button 
+                        type="submit" 
+                        id="btn-guardar-usuario"
+                        class="bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-stone-950 font-bold px-5 py-2 rounded-xl text-xs sm:text-sm shadow-lg shadow-amber-950/50 transition transform active:scale-95 cursor-pointer">
+                        Guardar Usuario
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer class="w-full border-t border-stone-800/60 py-4 px-6 text-center text-xs text-stone-400 select-none">
+        © 2026 A&S Barber Shop · Sistema Administrativo
+    </footer>
+
+    <script src="/js/admin/usuarios.js"></script>
+</body>
+</html>

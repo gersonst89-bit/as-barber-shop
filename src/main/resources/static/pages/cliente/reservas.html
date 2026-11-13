@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal de Reservas · A&S Barber Shop Miraflores</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        stone: {
+                            850: '#171513',
+                            950: '#0a0908',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                        display: ['Anton', 'Bebas Neue', 'sans-serif'],
+                        brand: ['Montserrat', 'Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="min-h-screen bg-[#0a0908] text-stone-100 font-sans selection:bg-cyan-500 selection:text-black flex flex-col">
+
+    <header class="w-full bg-[#0d0c0a]/95 border-b border-cyan-500/20 backdrop-blur-md sticky top-0 z-40 px-4 sm:px-8 py-3.5">
+        <div class="max-w-6xl mx-auto flex items-center justify-between gap-4">
+            
+            <a href="/" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-full overflow-hidden border border-stone-700/80 group-hover:border-cyan-400 transition shrink-0">
+                    <img src="/img/logo-solo.png" alt="A&S Barber Shop" class="w-full h-full object-cover">
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-sm font-black tracking-wider text-white uppercase group-hover:text-cyan-400 transition leading-none">A&S BARBER SHOP</span>
+                    <span class="text-[9px] font-bold tracking-[0.2em] text-cyan-400 uppercase leading-none mt-1">PORTAL DE RESERVAS</span>
+                </div>
+            </a>
+
+            <div class="flex items-center gap-4">
+                <div id="info-usuario-cabecera" class="hidden sm:flex items-center gap-3 text-right">
+                    <div>
+                        <p id="nombre-cliente-cabecera" class="text-xs font-bold text-white">Cliente</p>
+                        <p id="rol-cliente-cabecera" class="text-[10px] text-cyan-400 font-semibold">cliente@asbarbershop.pe</p>
+                    </div>
+                    <div id="avatar-cliente-cabecera" class="w-8 h-8 rounded-full bg-gradient-to-tr from-cyan-500 to-blue-600 text-stone-950 font-black text-xs flex items-center justify-center shadow-md">
+                        C
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <a href="/" class="px-3.5 py-1.5 rounded-xl border border-stone-800 hover:border-cyan-500 text-stone-300 hover:text-white text-xs font-semibold transition">
+                        ← Web Principal
+                    </a>
+                    <button type="button" id="btn-cerrar-sesion" class="px-3.5 py-1.5 rounded-xl border border-red-800/40 text-red-400 hover:bg-red-950/40 text-xs font-semibold transition">
+                        Salir
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    <div class="w-full border-b border-stone-800 bg-[#0d0c0a] px-4 sm:px-8">
+        <div class="max-w-6xl mx-auto flex items-center gap-2 py-2">
+            <button type="button" id="tab-btn-agendar" class="px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition border bg-cyan-500/15 border-cyan-500/50 text-cyan-400 flex items-center gap-2">
+                <span>✂️</span>
+                <span>Agendar Nueva Cita</span>
+            </button>
+            <button type="button" id="tab-btn-mis-citas" class="px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition border border-transparent text-stone-400 hover:text-stone-200 flex items-center gap-2">
+                <span>📅</span>
+                <span>Mis Citas Agendadas</span>
+            </button>
+        </div>
+    </div>
+
+    <main class="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 py-8 sm:py-12">
+        
+        <div id="vista-agendar" class="space-y-8">
+            
+            <div class="space-y-2 text-center sm:text-left">
+                <span class="text-[11px] font-bold text-cyan-400 uppercase tracking-widest">Sede Miraflores · Galería Pardo</span>
+                <h1 class="text-3xl sm:text-4xl font-display text-white tracking-wider uppercase">
+                    Reserva tu Turno en <span class="text-cyan-400">A&S Barber Shop</span>
+                </h1>
+                <p class="text-xs sm:text-sm text-stone-400 max-w-2xl leading-relaxed">
+                    Personaliza tu atención en 4 sencillos pasos: selecciona tus servicios, tu estilista de confianza y el horario que mejor se acomode a tu día.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-4 gap-2 sm:gap-4 p-2 sm:p-3 rounded-2xl bg-[#12100e] border border-stone-800 text-center">
+                <div class="space-y-1">
+                    <div id="indicador-paso-1" class="w-7 h-7 sm:w-8 sm:h-8 mx-auto rounded-full bg-cyan-500 text-stone-950 font-black text-xs flex items-center justify-center border border-cyan-400 shadow-lg shadow-cyan-500/30">
+                        1
+                    </div>
+                    <span id="texto-paso-1" class="text-[10px] sm:text-xs text-cyan-400 font-bold block uppercase tracking-wider">Servicios</span>
+                </div>
+
+                <div class="space-y-1">
+                    <div id="indicador-paso-2" class="w-7 h-7 sm:w-8 sm:h-8 mx-auto rounded-full bg-[#141210] text-stone-400 font-black text-xs flex items-center justify-center border border-stone-800">
+                        2
+                    </div>
+                    <span id="texto-paso-2" class="text-[10px] sm:text-xs text-stone-500 block uppercase tracking-wider">Barbero</span>
+                </div>
+
+                <div class="space-y-1">
+                    <div id="indicador-paso-3" class="w-7 h-7 sm:w-8 sm:h-8 mx-auto rounded-full bg-[#141210] text-stone-400 font-black text-xs flex items-center justify-center border border-stone-800">
+                        3
+                    </div>
+                    <span id="texto-paso-3" class="text-[10px] sm:text-xs text-stone-500 block uppercase tracking-wider">Fecha y Hora</span>
+                </div>
+
+                <div class="space-y-1">
+                    <div id="indicador-paso-4" class="w-7 h-7 sm:w-8 sm:h-8 mx-auto rounded-full bg-[#141210] text-stone-400 font-black text-xs flex items-center justify-center border border-stone-800">
+                        4
+                    </div>
+                    <span id="texto-paso-4" class="text-[10px] sm:text-xs text-stone-500 block uppercase tracking-wider">Confirmación</span>
+                </div>
+            </div>
+
+            <section id="paso-contenido-1" class="space-y-6">
+                <div class="flex items-center justify-between border-b border-stone-800 pb-3">
+                    <div>
+                        <h2 class="text-base sm:text-lg font-bold text-white uppercase tracking-wider">Paso 1: Elige tus Servicios</h2>
+                        <p class="text-xs text-stone-400 mt-0.5">Puedes marcar uno o combinar varios según tu preferencia.</p>
+                    </div>
+                    <div class="text-right">
+                        <span id="resumen-paso1-contador" class="text-xs font-bold text-cyan-400">0 servicios</span>
+                    </div>
+                </div>
+
+                <div id="grilla-servicios-reserva" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                </div>
+
+                <div class="p-5 rounded-2xl bg-[#12100e] border border-cyan-500/25 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div class="flex items-center gap-6 text-xs text-center sm:text-left">
+                        <div>
+                            <span class="text-stone-400 block text-[10px] uppercase">Tiempo Estimado</span>
+                            <strong id="resumen-paso1-tiempo" class="text-white font-mono text-sm">0 min</strong>
+                        </div>
+                        <div>
+                            <span class="text-stone-400 block text-[10px] uppercase">Total Parcial</span>
+                            <strong id="resumen-paso1-total" class="text-cyan-400 font-mono text-base font-black">S/ 0.00</strong>
+                        </div>
+                    </div>
+
+                    <button type="button" id="btn-paso1-siguiente" disabled class="w-full sm:w-auto bg-gradient-to-r from-cyan-500 to-blue-600 text-stone-950 font-black px-7 py-3 rounded-xl text-xs uppercase tracking-wider transition opacity-40 cursor-not-allowed flex items-center justify-center gap-2">
+                        <span>Continuar a Barbero</span>
+                        <span>→</span>
+                    </button>
+                </div>
+            </section>
+
+            <section id="paso-contenido-2" class="hidden space-y-6">
+                <div class="border-b border-stone-800 pb-3">
+                    <h2 class="text-base sm:text-lg font-bold text-white uppercase tracking-wider">Paso 2: Selecciona tu Maestro Barbero</h2>
+                    <p class="text-xs text-stone-400 mt-0.5">Elige a tu estilista de confianza o la opción de primer turno libre.</p>
+                </div>
+
+                <div id="grilla-barberos-reserva" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                </div>
+
+                <div class="flex items-center justify-between pt-4 border-t border-stone-800">
+                    <button type="button" id="btn-paso2-anterior" class="px-5 py-2.5 rounded-xl border border-stone-700 hover:border-stone-500 text-stone-300 text-xs font-bold uppercase tracking-wider transition">
+                        ← Volver a Servicios
+                    </button>
+
+                    <button type="button" id="btn-paso2-siguiente" disabled class="bg-gradient-to-r from-cyan-500 to-blue-600 text-stone-950 font-black px-7 py-3 rounded-xl text-xs uppercase tracking-wider transition opacity-40 cursor-not-allowed flex items-center gap-2">
+                        <span>Continuar a Fecha y Hora</span>
+                        <span>→</span>
+                    </button>
+                </div>
+            </section>
+
+            <section id="paso-contenido-3" class="hidden space-y-6">
+                <div class="border-b border-stone-800 pb-3">
+                    <h2 class="text-base sm:text-lg font-bold text-white uppercase tracking-wider">Paso 3: Elige la Fecha y Horario</h2>
+                    <p class="text-xs text-stone-400 mt-0.5">Los horarios se calculan en tiempo real según la disponibilidad del barbero.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+                    
+                    <div class="p-5 rounded-2xl bg-[#12100e] border border-stone-800 space-y-4">
+                        <label for="input-fecha-cita" class="block text-xs font-bold text-white uppercase tracking-wider">
+                            📅 Fecha de Atención
+                        </label>
+                        <input type="date" id="input-fecha-cita" class="w-full bg-[#181614] border border-stone-700 rounded-xl px-3.5 py-3 text-xs text-stone-100 focus:outline-none focus:border-cyan-400 font-mono">
+                        
+                        <div class="p-3.5 rounded-xl bg-[#171513] border border-stone-800 text-[11px] text-stone-400 space-y-1">
+                            <p class="font-bold text-stone-300">Horarios de Atención:</p>
+                            <p>• Lun a Sáb: 10:00 am - 9:00 pm</p>
+                            <p>• Domingos: 10:00 am - 7:00 pm</p>
+                        </div>
+                    </div>
+
+                    <div class="md:col-span-2 p-5 rounded-2xl bg-[#12100e] border border-stone-800 space-y-4">
+                        <div class="flex items-center justify-between border-b border-stone-800 pb-2">
+                            <span class="text-xs font-bold text-white uppercase tracking-wider">Turnos Disponibles</span>
+                            <span class="text-[11px] text-cyan-400 font-semibold">Selecciona una hora</span>
+                        </div>
+
+                        <div id="cargando-horarios" class="hidden py-8 text-center text-xs text-stone-400">
+                            <div class="w-6 h-6 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
+                            <span>Consultando agenda en tiempo real...</span>
+                        </div>
+
+                        <div id="sin-horarios-mensaje" class="hidden py-8 text-center text-xs text-amber-400 space-y-1">
+                            <p class="font-bold">No hay turnos libres para esta fecha.</p>
+                            <p class="text-stone-400 text-[11px]">Prueba seleccionando otro día o cambiando de barbero.</p>
+                        </div>
+
+                        <div id="grilla-horarios-reserva" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2.5">
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="flex items-center justify-between pt-4 border-t border-stone-800">
+                    <button type="button" id="btn-paso3-anterior" class="px-5 py-2.5 rounded-xl border border-stone-700 hover:border-stone-500 text-stone-300 text-xs font-bold uppercase tracking-wider transition">
+                        ← Volver a Barbero
+                    </button>
+
+                    <button type="button" id="btn-paso3-siguiente" disabled class="bg-gradient-to-r from-cyan-500 to-blue-600 text-stone-950 font-black px-7 py-3 rounded-xl text-xs uppercase tracking-wider transition opacity-40 cursor-not-allowed flex items-center gap-2">
+                        <span>Continuar a Confirmación</span>
+                        <span>→</span>
+                    </button>
+                </div>
+            </section>
+
+            <section id="paso-contenido-4" class="hidden space-y-6">
+                <div class="border-b border-stone-800 pb-3">
+                    <h2 class="text-base sm:text-lg font-bold text-white uppercase tracking-wider">Paso 4: Resumen y Confirmación</h2>
+                    <p class="text-xs text-stone-400 mt-0.5">Revisa el detalle de tu cita antes de confirmar el turno.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-6">
+                    
+                    <div class="md:col-span-3 p-6 rounded-2xl bg-[#12100e] border border-cyan-500/30 space-y-5 shadow-2xl">
+                        <div class="flex items-center justify-between border-b border-stone-800 pb-3">
+                            <h3 class="text-xs font-bold text-cyan-400 uppercase tracking-widest">Ticket de Reserva</h3>
+                            <span class="text-[11px] font-mono text-stone-400">Sede Miraflores · Tda 18</span>
+                        </div>
+
+                        <div class="space-y-2">
+                            <span class="text-[10px] text-stone-400 uppercase font-bold tracking-wider">Servicios a Realizar</span>
+                            <div id="resumen-final-servicios" class="space-y-1 pt-1">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4 pt-3 border-t border-stone-800 text-xs">
+                            <div>
+                                <span class="text-[10px] text-stone-400 uppercase font-semibold">Barbero Asignado</span>
+                                <strong id="resumen-final-barbero" class="text-white block mt-0.5">---</strong>
+                            </div>
+                            <div>
+                                <span class="text-[10px] text-stone-400 uppercase font-semibold">Fecha y Hora</span>
+                                <strong id="resumen-final-fechahora" class="text-cyan-400 block mt-0.5">---</strong>
+                            </div>
+                            <div>
+                                <span class="text-[10px] text-stone-400 uppercase font-semibold">Duración Total</span>
+                                <span id="resumen-final-duracion" class="text-stone-200 block mt-0.5 font-mono">0 min</span>
+                            </div>
+                            <div>
+                                <span class="text-[10px] text-stone-400 uppercase font-semibold">Total a Pagar</span>
+                                <strong id="resumen-final-total" class="text-xl text-white font-mono font-black block mt-0.5">S/ 0.00</strong>
+                            </div>
+                        </div>
+
+                        <div class="pt-3 border-t border-stone-800 text-[11px] text-stone-400 flex items-center gap-2">
+                            <span>💡</span>
+                            <span>El pago se efectúa directamente en el local al terminar el corte (Efectivo, Yape, Plin o Tarjeta).</span>
+                        </div>
+                    </div>
+
+                    <div class="md:col-span-2 space-y-4">
+                        <div class="p-5 rounded-2xl bg-[#12100e] border border-stone-800 space-y-3">
+                            <label for="input-notas-cita" class="block text-xs font-bold text-white uppercase tracking-wider">
+                                Notas o Preferencias (Opcional)
+                            </label>
+                            <textarea id="input-notas-cita" rows="3" placeholder="Ej: Degradado bajo en laterales, dejar largo arriba..." class="w-full bg-[#181614] border border-stone-700 rounded-xl p-3 text-xs text-stone-100 focus:outline-none focus:border-cyan-400"></textarea>
+                        </div>
+
+                        <div class="p-5 rounded-2xl bg-[#12100e] border border-stone-800 space-y-3">
+                            <label for="input-codigo-promo" class="block text-xs font-bold text-white uppercase tracking-wider">
+                                Código de Promoción (Opcional)
+                            </label>
+                            <input type="text" id="input-codigo-promo" placeholder="Ej: AS10, BIENVENIDA" class="w-full bg-[#181614] border border-stone-700 rounded-xl px-3.5 py-2.5 text-xs text-stone-100 focus:outline-none focus:border-cyan-400 uppercase font-mono">
+                        </div>
+
+                        <button type="button" id="btn-confirmar-cita-final" class="w-full bg-gradient-to-r from-cyan-500 via-sky-400 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-stone-950 font-black py-4 px-6 rounded-2xl text-xs uppercase tracking-wider shadow-xl shadow-cyan-950/60 transition transform active:scale-95 flex items-center justify-center gap-2">
+                            <span>✓ Confirmar y Reservar Cita</span>
+                        </button>
+                    </div>
+
+                </div>
+
+                <div class="flex items-center justify-start pt-4 border-t border-stone-800">
+                    <button type="button" id="btn-paso4-anterior" class="px-5 py-2.5 rounded-xl border border-stone-700 hover:border-stone-500 text-stone-300 text-xs font-bold uppercase tracking-wider transition">
+                        ← Volver a Fecha y Hora
+                    </button>
+                </div>
+            </section>
+
+        </div>
+
+        <div id="vista-mis-citas" class="hidden space-y-6">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-stone-800 pb-4">
+                <div>
+                    <h2 class="text-2xl font-display text-white uppercase tracking-wider">Mis Citas Agendadas</h2>
+                    <p class="text-xs text-stone-400 mt-0.5">Historial y reservas activas en A&S Barber Shop.</p>
+                </div>
+
+                <button type="button" onclick="activarPestana('agendar')" class="bg-gradient-to-r from-cyan-500 to-blue-600 text-stone-950 font-black px-4 py-2 rounded-xl text-xs uppercase tracking-wider shadow-md">
+                    + Agendar Nueva Cita
+                </button>
+            </div>
+
+            <div id="cargando-mis-citas" class="py-12 text-center text-xs text-stone-400">
+                <div class="w-6 h-6 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
+                <span>Cargando tus citas agendadas...</span>
+            </div>
+
+            <div id="mis-citas-vacio" class="hidden py-16 text-center space-y-3 p-8 rounded-3xl bg-[#12100e] border border-stone-800">
+                <span class="text-4xl block">✂️</span>
+                <h3 class="text-base font-bold text-white">No tienes citas agendadas</h3>
+                <p class="text-xs text-stone-400 max-w-sm mx-auto">Elige tus servicios y barbero favorito para agendar tu primer turno.</p>
+                <div class="pt-2">
+                    <button type="button" onclick="activarPestana('agendar')" class="bg-gradient-to-r from-cyan-500 to-blue-600 text-stone-950 font-black px-6 py-2.5 rounded-xl text-xs uppercase tracking-wider shadow-md">
+                        Agendar mi Turno Ahora
+                    </button>
+                </div>
+            </div>
+
+            <div id="lista-mis-citas" class="space-y-4">
+            </div>
+        </div>
+
+    </main>
+
+    <div id="modal-cita-exitosa" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm items-center justify-center p-4">
+        <div class="bg-[#12100e] border border-cyan-500/40 rounded-3xl p-6 sm:p-8 max-w-md w-full text-center space-y-4 shadow-2xl">
+            <div class="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 mx-auto flex items-center justify-center text-3xl font-black shadow-lg shadow-emerald-950/50">
+                ✓
+            </div>
+            
+            <h3 class="text-2xl font-display text-white uppercase tracking-wider">¡Cita Reservada con Éxito!</h3>
+            <p class="text-xs text-stone-300 leading-relaxed">
+                Tu turno ha quedado confirmado en A&S Barber Shop Miraflores. Te esperamos puntualmente en el local.
+            </p>
+
+            <div class="p-4 rounded-xl bg-[#171513] border border-stone-800 text-xs space-y-2 text-left">
+                <div class="flex justify-between border-b border-stone-800 pb-1.5">
+                    <span class="text-stone-400">Barbero:</span>
+                    <strong id="modal-exito-barbero" class="text-white">---</strong>
+                </div>
+                <div class="flex justify-between border-b border-stone-800 pb-1.5">
+                    <span class="text-stone-400">Fecha y Hora:</span>
+                    <strong id="modal-exito-fechahora" class="text-cyan-400">---</strong>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-stone-400">Ubicación:</span>
+                    <span class="text-stone-300">Galería Pardo · Sótano Tda. 18</span>
+                </div>
+            </div>
+
+            <div class="pt-2 flex flex-col sm:flex-row gap-2">
+                <button type="button" onclick="document.getElementById('modal-cita-exitosa').classList.add('hidden'); activarPestana('mis-citas');" class="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-stone-950 font-black py-3 rounded-xl text-xs uppercase tracking-wider">
+                    Ver Mis Citas Agendadas
+                </button>
+                <a href="/" class="w-full border border-stone-700 hover:border-cyan-500 text-stone-300 hover:text-white py-3 rounded-xl text-xs font-bold uppercase tracking-wider text-center transition">
+                    Volver al Inicio
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div id="notificaciones-toast" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 max-w-sm pointer-events-none">
+    </div>
+
+    <footer class="w-full border-t border-stone-800 bg-[#0a0908] py-6 px-4 text-center text-xs text-stone-500">
+        <p>© 2026 A&S Barber Shop · Portal Oficial de Clientes · Miraflores, Lima</p>
+    </footer>
+
+    <script src="/js/cliente/reservas.js"></script>
+</body>
+</html>

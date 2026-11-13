@@ -1,0 +1,310 @@
+{
+  "info": {
+    "name": "A&S Barber Shop API",
+    "description": "Colección completa de endpoints para A&S Barber Shop Backend en Spring Boot.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080/api",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Autenticación (Auth)",
+      "item": [
+        {
+          "name": "Login Admin",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@asbarbershop.com\",\n  \"password\": \"admin123\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] }
+          }
+        },
+        {
+          "name": "Registro de Cliente",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Carlos\",\n  \"apellido\": \"Mendoza\",\n  \"telefono\": \"987654321\",\n  \"email\": \"carlos@gmail.com\",\n  \"password\": \"123456\",\n  \"preferencias\": \"Corte degrade medio, no tocar mucho arriba\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/registro", "host": ["{{baseUrl}}"], "path": ["auth", "registro"] }
+          }
+        },
+        {
+          "name": "Mi Usuario Autenticado (/me)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/auth/me", "host": ["{{baseUrl}}"], "path": ["auth", "me"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Servicios",
+      "item": [
+        {
+          "name": "Listar Servicios Activos (Público)",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/servicios", "host": ["{{baseUrl}}"], "path": ["servicios"] }
+          }
+        },
+        {
+          "name": "Crear Servicio (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Corte Clásico + Barba\",\n  \"descripcion\": \"Corte con tijera o máquina más perfilado de barba con toalla caliente\",\n  \"precio\": 35.00,\n  \"duracionMinutos\": 45,\n  \"activo\": true\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/admin/servicios", "host": ["{{baseUrl}}"], "path": ["admin", "servicios"] }
+          }
+        },
+        {
+          "name": "Asignar Servicio a Barbero",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"idBarbero\": 2,\n  \"idServicio\": 1\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/admin/servicios/asignar-barbero", "host": ["{{baseUrl}}"], "path": ["admin", "servicios", "asignar-barbero"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Barberos y Horarios",
+      "item": [
+        {
+          "name": "Listar Barberos Disponibles",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/barberos", "host": ["{{baseUrl}}"], "path": ["barberos"] }
+          }
+        },
+        {
+          "name": "Consultar Disponibilidad de Barbero",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/horarios/disponibilidad?idBarbero=2&fecha=2026-11-20&duracionMinutos=45",
+              "host": ["{{baseUrl}}"],
+              "path": ["horarios", "disponibilidad"],
+              "query": [
+                { "key": "idBarbero", "value": "2" },
+                { "key": "fecha", "value": "2026-11-20" },
+                { "key": "duracionMinutos", "value": "45" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Registrar Horario de Barbero (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"diaSemana\": 5,\n  \"horaInicio\": \"09:00\",\n  \"horaFin\": \"19:00\",\n  \"activo\": true\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/admin/horarios/barbero/2", "host": ["{{baseUrl}}"], "path": ["admin", "horarios", "barbero", "2"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Promociones",
+      "item": [
+        {
+          "name": "Crear Promoción (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"codigo\": \"PROMO20\",\n  \"descripcion\": \"20% de descuento en todos los servicios\",\n  \"tipoDescuento\": \"PORCENTAJE\",\n  \"valorDescuento\": 20.00,\n  \"fechaInicio\": \"2026-11-01\",\n  \"fechaFin\": \"2026-12-31\",\n  \"activo\": true\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/admin/promociones", "host": ["{{baseUrl}}"], "path": ["admin", "promociones"] }
+          }
+        },
+        {
+          "name": "Validar Cupón de Descuento",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/promociones/validar?codigo=PROMO20&subtotal=50.00",
+              "host": ["{{baseUrl}}"],
+              "path": ["promociones", "validar"],
+              "query": [
+                { "key": "codigo", "value": "PROMO20" },
+                { "key": "subtotal", "value": "50.00" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Citas",
+      "item": [
+        {
+          "name": "Reservar Cita (Cliente o Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"idBarbero\": 2,\n  \"fecha\": \"2026-11-20\",\n  \"horaInicio\": \"10:00\",\n  \"idsServicios\": [1],\n  \"codigoPromocion\": \"PROMO20\",\n  \"notas\": \"Primera visita\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/citas", "host": ["{{baseUrl}}"], "path": ["citas"] }
+          }
+        },
+        {
+          "name": "Consultar Citas",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/citas", "host": ["{{baseUrl}}"], "path": ["citas"] }
+          }
+        },
+        {
+          "name": "Reprogramar Cita",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nuevaFecha\": \"2026-11-21\",\n  \"nuevaHoraInicio\": \"11:00\",\n  \"observacion\": \"Cambio por reunión de trabajo\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/citas/1/reprogramar", "host": ["{{baseUrl}}"], "path": ["citas", "1", "reprogramar"] }
+          }
+        },
+        {
+          "name": "Actualizar Estado (a ATENDIDA - genera comisión)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nuevoEstado\": \"ATENDIDA\",\n  \"observacion\": \"Servicio concluido a satisfacción\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/citas/1/estado", "host": ["{{baseUrl}}"], "path": ["citas", "1", "estado"] }
+          }
+        },
+        {
+          "name": "Cancelar Cita",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"motivoCancelacion\": \"Viaje imprevisto de salud\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/citas/1/cancelar", "host": ["{{baseUrl}}"], "path": ["citas", "1", "cancelar"] }
+          }
+        },
+        {
+          "name": "Ver Historial de la Cita (Auditoría)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/citas/1/historial", "host": ["{{baseUrl}}"], "path": ["citas", "1", "historial"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "6. Pagos y Comisiones",
+      "item": [
+        {
+          "name": "Listar Métodos de Pago",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/pagos/metodos", "host": ["{{baseUrl}}"], "path": ["pagos", "metodos"] }
+          }
+        },
+        {
+          "name": "Registrar Pago de Cita",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"idCita\": 1,\n  \"idMetodo\": 3,\n  \"monto\": 28.00,\n  \"referencia\": \"YAPE-987654\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/pagos", "host": ["{{baseUrl}}"], "path": ["pagos"] }
+          }
+        },
+        {
+          "name": "Consultar Comisiones (Admin / Barbero)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/comisiones", "host": ["{{baseUrl}}"], "path": ["comisiones"] }
+          }
+        },
+        {
+          "name": "Liquidar Comisión (Admin a PAGADA)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nuevoEstado\": \"PAGADA\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/admin/comisiones/1/estado", "host": ["{{baseUrl}}"], "path": ["admin", "comisiones", "1", "estado"] }
+          }
+        }
+      ]
+    }
+  ]
+}
+

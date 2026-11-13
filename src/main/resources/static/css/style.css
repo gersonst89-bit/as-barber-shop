@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --color-dorado-claro: #f59e0b;
+    --color-dorado: #d97706;
+    --color-dorado-oscuro: #b45309;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: #0c0a09;
+}
+::-webkit-scrollbar-thumb {
+    background: #292524;
+    border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #d97706;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus {
+    -webkit-text-fill-color: #fafaf9;
+    -webkit-box-shadow: 0 0 0px 1000px #080706 inset;
+    transition: background-color 5000s ease-in-out 0s;
+}

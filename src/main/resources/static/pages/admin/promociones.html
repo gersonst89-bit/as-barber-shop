@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Promociones · A&S Barber Shop Miraflores</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        stone: {
+                            850: '#171513',
+                            950: '#0a0908',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                        display: ['Anton', 'Bebas Neue', 'sans-serif'],
+                        brand: ['Montserrat', 'Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="min-h-screen bg-[#0a0908] text-stone-100 font-sans selection:bg-cyan-500 selection:text-black flex flex-col">
+
+    <header class="w-full bg-[#0d0c0a]/95 border-b border-cyan-500/20 backdrop-blur-md sticky top-0 z-40 px-4 sm:px-8 py-3.5">
+        <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+            
+            <a href="/" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-full overflow-hidden border border-stone-700/80 group-hover:border-cyan-400 transition shrink-0">
+                    <img src="/img/logo-solo.png" alt="A&S Barber Shop" class="w-full h-full object-cover">
+                </div>
+                <div class="flex flex-col">
+                    <div class="flex items-center gap-2">
+                        <span class="text-sm font-black tracking-wider text-white uppercase group-hover:text-cyan-400 transition leading-none">A&S BARBER SHOP</span>
+                        <span class="px-2 py-0.5 rounded-full text-[9px] font-bold bg-amber-500/15 text-amber-400 border border-amber-500/30">
+                            ADMIN
+                        </span>
+                    </div>
+                    <span class="text-[9px] font-bold tracking-[0.2em] text-cyan-400 uppercase leading-none mt-1">PROMOCIONES & CUPONES</span>
+                </div>
+            </a>
+
+            <div class="flex items-center gap-4">
+                <div class="hidden md:flex items-center gap-2 text-right">
+                    <div>
+                        <p id="nombre-admin-cabecera" class="text-xs font-bold text-white">Administrador General</p>
+                        <p class="text-[10px] text-cyan-400 font-semibold">admin@asbarbershop.pe</p>
+                    </div>
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-cyan-500 to-blue-700 text-stone-950 font-black flex items-center justify-center text-xs shadow-md">
+                        A
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <a href="/" class="px-3 py-1.5 rounded-xl border border-stone-800 hover:border-cyan-500 text-stone-300 text-xs font-semibold transition">
+                        ← Web Principal
+                    </a>
+                    <button type="button" id="btn-cerrar-sesion" class="px-3 py-1.5 rounded-xl border border-red-800/40 text-red-400 hover:bg-red-950/40 text-xs font-semibold transition cursor-pointer">
+                        Salir
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    <div class="w-full border-b border-stone-800 bg-[#0d0c0a] px-4 sm:px-8">
+        <div class="max-w-7xl mx-auto flex items-center gap-2 py-2 overflow-x-auto text-xs">
+            <a href="/pages/admin/dashboard.html" class="px-4 py-2 rounded-xl font-bold uppercase tracking-wider transition border border-transparent text-stone-400 hover:text-stone-200">
+                📊 Dashboard General
+            </a>
+            <a href="/pages/admin/usuarios.html" class="px-4 py-2 rounded-xl font-bold uppercase tracking-wider transition border border-transparent text-stone-400 hover:text-stone-200">
+                👥 Personal & Usuarios
+            </a>
+            <a href="/pages/admin/servicios.html" class="px-4 py-2 rounded-xl font-bold uppercase tracking-wider transition border border-transparent text-stone-400 hover:text-stone-200">
+                ✂️ Catálogo de Servicios
+            </a>
+            <a href="/pages/admin/promociones.html" class="px-4 py-2 rounded-xl font-bold uppercase tracking-wider transition border bg-cyan-500/15 border-cyan-500/50 text-cyan-400">
+                🏷️ Promociones & Cupones
+            </a>
+        </div>
+    </div>
+
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-8 py-8 space-y-8">
+        
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-stone-800 pb-4">
+            <div>
+                <h1 class="text-2xl font-display text-white uppercase tracking-wider">Gestión de Promociones y Descuentos</h1>
+                <p class="text-xs text-stone-400 mt-0.5">Controla los cupones activos que los clientes pueden ingresar en su reserva online.</p>
+            </div>
+
+            <button type="button" id="btn-nueva-promocion" class="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-stone-950 font-black px-5 py-2.5 rounded-xl text-xs uppercase tracking-wider shadow-lg shadow-cyan-950/50 transition flex items-center gap-2">
+                <span>+ Crear Promoción</span>
+            </button>
+        </div>
+
+        <div class="rounded-2xl bg-[#12100e] border border-stone-800 overflow-hidden shadow-2xl">
+            <div id="cargando-promociones" class="hidden py-12 text-center text-xs text-stone-400">
+                <div class="w-6 h-6 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
+                <span>Cargando promociones registradas...</span>
+            </div>
+
+            <div id="promociones-vacio" class="hidden py-12 text-center text-xs text-stone-500">
+                No hay promociones registradas en el sistema.
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-[#171513] border-b border-stone-800 text-[10px] font-bold text-stone-400 uppercase tracking-wider">
+                            <th class="py-3.5 px-4"># ID</th>
+                            <th class="py-3.5 px-4">Código de Cupón</th>
+                            <th class="py-3.5 px-4">Descripción</th>
+                            <th class="py-3.5 px-4">Descuento</th>
+                            <th class="py-3.5 px-4">Vigencia</th>
+                            <th class="py-3.5 px-4">Estado</th>
+                            <th class="py-3.5 px-4 text-right">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cuerpo-tabla-promociones" class="divide-y divide-stone-800/60">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+
+    <div id="modal-promocion" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm items-center justify-center p-4">
+        <div class="bg-[#12100e] border border-cyan-500/40 rounded-3xl p-6 sm:p-8 max-w-lg w-full space-y-5 shadow-2xl">
+            <div class="border-b border-stone-800 pb-3">
+                <h3 id="modal-titulo-promocion" class="text-xl font-display text-white uppercase tracking-wider">Crear Nueva Promoción</h3>
+                <p class="text-xs text-stone-400 mt-0.5">Ingresa los datos y restricciones del código de descuento.</p>
+            </div>
+
+            <form id="form-promocion" class="space-y-4">
+                <div>
+                    <label for="input-promo-codigo" class="block text-xs font-bold text-white uppercase mb-1">Código del Cupón *</label>
+                    <input type="text" id="input-promo-codigo" required placeholder="Ej: ASVERANO20, CLIENTEVIP" class="w-full bg-[#181614] border border-stone-700 rounded-xl px-3.5 py-2.5 text-xs text-stone-100 uppercase font-mono focus:outline-none focus:border-cyan-400">
+                </div>
+
+                <div>
+                    <label for="input-promo-desc" class="block text-xs font-bold text-white uppercase mb-1">Descripción del Beneficio</label>
+                    <input type="text" id="input-promo-desc" placeholder="Ej: 20% de descuento en corte clásico" class="w-full bg-[#181614] border border-stone-700 rounded-xl px-3.5 py-2.5 text-xs text-stone-100 focus:outline-none focus:border-cyan-400">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label for="input-promo-tipo" class="block text-xs font-bold text-white uppercase mb-1">Tipo de Descuento *</label>
+                        <select id="input-promo-tipo" required class="w-full bg-[#181614] border border-stone-700 rounded-xl px-3.5 py-2.5 text-xs text-stone-100 focus:outline-none focus:border-cyan-400">
+                            <option value="PORCENTAJE">Porcentaje (%)</option>
+                            <option value="MONTO_FIJO">Monto Fijo (S/)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="input-promo-valor" class="block text-xs font-bold text-white uppercase mb-1">Valor del Descuento *</label>
+                        <input type="number" step="0.50" min="1" id="input-promo-valor" required placeholder="Ej: 15 o 10.00" class="w-full bg-[#181614] border border-stone-700 rounded-xl px-3.5 py-2.5 text-xs text-stone-100 font-mono focus:outline-none focus:border-cyan-400">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label for="input-promo-inicio" class="block text-xs font-bold text-white uppercase mb-1">Fecha de Inicio *</label>
+                        <input type="date" id="input-promo-inicio" required class="w-full bg-[#181614] border border-stone-700 rounded-xl px-3.5 py-2.5 text-xs text-stone-100 font-mono focus:outline-none focus:border-cyan-400">
+                    </div>
+
+                    <div>
+                        <label for="input-promo-fin" class="block text-xs font-bold text-white uppercase mb-1">Fecha de Fin (Vencimiento) *</label>
+                        <input type="date" id="input-promo-fin" required class="w-full bg-[#181614] border border-stone-700 rounded-xl px-3.5 py-2.5 text-xs text-stone-100 font-mono focus:outline-none focus:border-cyan-400">
+                    </div>
+                </div>
+
+                <div class="pt-3 border-t border-stone-800 flex items-center justify-end gap-3">
+                    <button type="button" id="btn-cancelar-promocion" class="px-4 py-2.5 rounded-xl border border-stone-700 text-stone-300 hover:bg-[#1a1714] text-xs font-bold uppercase tracking-wider transition">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-stone-950 font-black px-6 py-2.5 rounded-xl text-xs uppercase tracking-wider shadow-lg transition">
+                        Guardar Promoción
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer class="w-full border-t border-stone-800 bg-[#0a0908] py-6 px-4 text-center text-xs text-stone-500">
+        <p>© 2026 A&S Barber Shop · Módulo de Promociones y Marketing · Miraflores, Lima</p>
+    </footer>
+
+    <script src="/js/admin/promociones.js"></script>
+</body>
+</html>
+
