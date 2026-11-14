@@ -10,7 +10,8 @@ const estado = {
     pagos: [],
     filtroEstado: 'TODOS',
     filtroBarbero: 'TODOS',
-    filtroFecha: new Date().toISOString().split('T')[0]
+    filtroFecha: new Date().toISOString().split('T')[0],
+    filtroTexto: ''
 };
 
 try {
@@ -23,8 +24,9 @@ try {
 document.addEventListener('DOMContentLoaded', () => {
     verificarAutenticacionAdmin();
     configurarCabecera();
+    configurarSidebarMovil();
+    configurarReloj();
     configurarFiltros();
-
     cargarDatosGlobales();
 });
 
@@ -60,10 +62,49 @@ function configurarCabecera() {
     });
 }
 
+function configurarSidebarMovil() {
+    const btnAbrir = document.getElementById('btn-abrir-sidebar');
+    const sidebar = document.getElementById('admin-sidebar');
+    const overlay = document.getElementById('mobile-overlay');
+
+    if (!btnAbrir || !sidebar || !overlay) return;
+
+    const abrir = () => {
+        sidebar.classList.remove('-translate-x-full');
+        overlay.classList.remove('hidden');
+    };
+
+    const cerrar = () => {
+        sidebar.classList.add('-translate-x-full');
+        overlay.classList.add('hidden');
+    };
+
+    btnAbrir.addEventListener('click', abrir);
+    overlay.addEventListener('click', cerrar);
+}
+
+function configurarReloj() {
+    const elReloj = document.getElementById('reloj-sede-vivo');
+    if (!elReloj) return;
+
+    const actualizar = () => {
+        const ahora = new Date();
+        const opciones = { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' };
+        elReloj.textContent = ahora.toLocaleDateString('es-PE', opciones);
+    };
+
+    actualizar();
+    setInterval(actualizar, 30000);
+}
+
 function configurarFiltros() {
     const selectorEstado = document.getElementById('filtro-admin-estado');
     const selectorBarbero = document.getElementById('filtro-admin-barbero');
     const inputFecha = document.getElementById('filtro-admin-fecha');
+    const inputBusqueda = document.getElementById('filtro-busqueda-rapida');
+    const btnHoy = document.getElementById('btn-filtro-hoy');
+    const btnManana = document.getElementById('btn-filtro-manana');
+    const btnSemana = document.getElementById('btn-filtro-semana');
     const btnVerTodo = document.getElementById('btn-ver-todas-fechas');
 
     selectorEstado?.addEventListener('change', () => {
@@ -76,18 +117,68 @@ function configurarFiltros() {
         renderizarTablaCitas();
     });
 
+    inputBusqueda?.addEventListener('input', (e) => {
+        estado.filtroTexto = (e.target.value || '').trim().toLowerCase();
+        renderizarTablaCitas();
+    });
+
     if (inputFecha) {
         inputFecha.value = estado.filtroFecha;
         inputFecha.addEventListener('change', () => {
             estado.filtroFecha = inputFecha.value;
+            resaltarBotonFecha(null);
             cargarCitas();
         });
     }
 
+    btnHoy?.addEventListener('click', () => {
+        const hoy = new Date().toISOString().split('T')[0];
+        estado.filtroFecha = hoy;
+        if (inputFecha) inputFecha.value = hoy;
+        resaltarBotonFecha(btnHoy);
+        cargarCitas();
+    });
+
+    btnManana?.addEventListener('click', () => {
+        const manana = new Date();
+        manana.setDate(manana.getDate() + 1);
+        const fechaStr = manana.toISOString().split('T')[0];
+        estado.filtroFecha = fechaStr;
+        if (inputFecha) inputFecha.value = fechaStr;
+        resaltarBotonFecha(btnManana);
+        cargarCitas();
+    });
+
+    btnSemana?.addEventListener('click', () => {
+        estado.filtroFecha = '';
+        if (inputFecha) inputFecha.value = '';
+        resaltarBotonFecha(btnSemana);
+        cargarCitas();
+    });
+
     btnVerTodo?.addEventListener('click', () => {
         estado.filtroFecha = '';
         if (inputFecha) inputFecha.value = '';
+        resaltarBotonFecha(btnVerTodo);
         cargarCitas();
+    });
+}
+
+function resaltarBotonFecha(botonActivo) {
+    const botones = [
+        document.getElementById('btn-filtro-hoy'),
+        document.getElementById('btn-filtro-manana'),
+        document.getElementById('btn-filtro-semana'),
+        document.getElementById('btn-ver-todas-fechas')
+    ];
+
+    botones.forEach(btn => {
+        if (!btn) return;
+        if (btn === botonActivo) {
+            btn.className = 'px-3.5 py-1.5 rounded-xl font-bold transition border bg-cyan-500/15 border-cyan-500/50 text-cyan-400 shadow-sm';
+        } else {
+            btn.className = 'px-3.5 py-1.5 rounded-xl font-medium transition border border-stone-800 text-stone-400 hover:text-white hover:bg-stone-900';
+        }
     });
 }
 
@@ -102,6 +193,7 @@ async function cargarDatosGlobales() {
 
     actualizarKPIs();
     renderizarTopServicios();
+    renderizarResumenPagos();
 }
 
 async function cargarCitas() {
@@ -135,6 +227,7 @@ async function cargarCitas() {
     }
 
     renderizarTablaCitas();
+    actualizarKPIs();
 }
 
 function fallbackCitasAdmin() {
@@ -239,6 +332,7 @@ function actualizarKPIs() {
 function renderizarTablaCitas() {
     const tabla = document.getElementById('cuerpo-tabla-admin-citas');
     const vacio = document.getElementById('tabla-citas-vacia');
+    const contadorBadge = document.getElementById('contador-citas-badge');
     if (!tabla) return;
 
     tabla.innerHTML = '';
@@ -250,6 +344,22 @@ function renderizarTablaCitas() {
     if (estado.filtroBarbero !== 'TODOS') {
         filtradas = filtradas.filter(c => (c.nombreBarbero || '').includes(estado.filtroBarbero));
     }
+    if (estado.filtroTexto) {
+        filtradas = filtradas.filter(c => {
+            const texto = [
+                c.idCita,
+                c.nombreCliente,
+                c.telefonoCliente,
+                c.nombreBarbero,
+                (Array.isArray(c.detalles) ? c.detalles.map(d => d.nombreServicio).join(' ') : '')
+            ].join(' ').toLowerCase();
+            return texto.includes(estado.filtroTexto);
+        });
+    }
+
+    if (contadorBadge) {
+        contadorBadge.textContent = `${filtradas.length} cita${filtradas.length === 1 ? '' : 's'}`;
+    }
 
     if (filtradas.length === 0) {
         vacio?.classList.remove('hidden');
@@ -260,7 +370,7 @@ function renderizarTablaCitas() {
 
     filtradas.forEach(cita => {
         const fila = document.createElement('tr');
-        fila.className = 'border-b border-stone-800/80 text-xs hover:bg-[#151310] transition';
+        fila.className = 'border-b border-stone-800/60 text-xs hover:bg-[#161412] transition-colors';
 
         const colorEstado = cita.estado === 'CONFIRMADA' ? 'bg-cyan-500/15 text-cyan-400 border-cyan-500/30' :
                            cita.estado === 'ATENDIDA' ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30' :
@@ -273,32 +383,45 @@ function renderizarTablaCitas() {
             : 'Corte Clásico';
 
         const horaInicio = (cita.horaInicio || '10:00').substring(0, 5);
+        const inicial = (cita.nombreCliente || 'C').charAt(0).toUpperCase();
 
         fila.innerHTML = `
             <td class="py-3.5 px-4 font-mono font-bold text-cyan-400">#${cita.idCita || '0'}</td>
             <td class="py-3.5 px-4">
-                <strong class="text-white block">${cita.nombreCliente || 'Cliente'}</strong>
-                <span class="text-[11px] text-stone-400">${cita.telefonoCliente || ''}</span>
+                <div class="flex items-center gap-2.5">
+                    <div class="w-7 h-7 rounded-xl bg-stone-800 border border-stone-700/80 text-cyan-400 font-bold flex items-center justify-center text-[11px] shrink-0">
+                        ${inicial}
+                    </div>
+                    <div class="min-w-0">
+                        <strong class="text-white block truncate leading-tight">${cita.nombreCliente || 'Cliente'}</strong>
+                        <span class="text-[11px] text-stone-300 font-mono font-medium">${cita.telefonoCliente || ''}</span>
+                    </div>
+                </div>
             </td>
-            <td class="py-3.5 px-4 font-medium text-stone-200">${cita.nombreBarbero || 'Barbero'}</td>
+            <td class="py-3.5 px-4">
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-stone-900 border border-stone-800 text-stone-200 font-medium">
+                    <span class="text-amber-400">✂️</span>
+                    <span class="truncate">${cita.nombreBarbero || 'Barbero'}</span>
+                </span>
+            </td>
             <td class="py-3.5 px-4 font-mono">
-                <span class="text-stone-300 block">${cita.fecha || '--/--/----'}</span>
-                <span class="text-[11px] text-cyan-400">${horaInicio}</span>
+                <span class="text-stone-300 block text-[11px]">${cita.fecha || '--/--/----'}</span>
+                <span class="text-xs text-cyan-400 font-bold">${horaInicio}</span>
             </td>
             <td class="py-3.5 px-4 text-stone-300 max-w-xs truncate">${nombreServicio}</td>
-            <td class="py-3.5 px-4 font-mono font-bold text-white">S/ ${parseFloat(cita.montoTotal || 0).toFixed(2)}</td>
-            <td class="py-3.5 px-4">
+            <td class="py-3.5 px-4 font-mono font-bold text-white whitespace-nowrap">S/ ${parseFloat(cita.montoTotal || 0).toFixed(2)}</td>
+            <td class="py-3.5 px-4 whitespace-nowrap">
                 <span class="px-2.5 py-1 rounded-full text-[10px] font-bold border uppercase tracking-wider ${colorEstado}">
                     ${cita.estado}
                 </span>
             </td>
-            <td class="py-3.5 px-4 text-right">
+            <td class="py-3.5 px-4 text-right whitespace-nowrap">
                 <div class="flex items-center justify-end gap-1.5">
                     ${cita.estado !== 'CANCELADA' && cita.estado !== 'ATENDIDA' ? `
                         <button type="button" onclick="cancelarCitaAdmin(${cita.idCita})" class="px-2.5 py-1 rounded-lg border border-red-800/40 text-red-400 hover:bg-red-950/40 text-[11px] font-semibold transition" title="Cancelar Cita">
                             Cancelar
                         </button>
-                    ` : ''}
+                    ` : '<span class="text-stone-400 text-[11px] font-medium">—</span>'}
                 </div>
             </td>
         `;
@@ -346,17 +469,44 @@ function renderizarTopServicios() {
     contenedor.innerHTML = '';
     servicios.slice(0, 4).forEach((s, idx) => {
         const fila = document.createElement('div');
-        fila.className = 'flex items-center justify-between text-xs py-2 border-b border-stone-800/60 last:border-0';
+        fila.className = 'flex items-center justify-between text-xs py-2.5 border-b border-stone-800/60 last:border-0';
         fila.innerHTML = `
-            <div class="flex items-center gap-2">
-                <span class="w-5 h-5 rounded-full bg-cyan-500/15 text-cyan-400 font-mono text-[10px] flex items-center justify-center font-bold">
+            <div class="flex items-center gap-2.5 min-w-0">
+                <span class="w-6 h-6 rounded-lg bg-cyan-500/15 border border-cyan-500/30 text-cyan-400 font-mono text-[10px] flex items-center justify-center font-bold shrink-0">
                     ${idx + 1}
                 </span>
-                <span class="text-stone-300 font-semibold">${s.nombre}</span>
+                <span class="text-stone-200 font-medium truncate">${s.nombre}</span>
             </div>
-            <span class="font-mono font-bold text-cyan-400">S/ ${parseFloat(s.precio).toFixed(2)}</span>
+            <span class="font-mono font-bold text-cyan-400 shrink-0 ml-2">S/ ${parseFloat(s.precio).toFixed(2)}</span>
         `;
         contenedor.appendChild(fila);
     });
 }
 
+function renderizarResumenPagos() {
+    const elTarjeta = document.getElementById('pago-tarjeta-monto');
+    const elYape = document.getElementById('pago-yape-monto');
+    const elEfectivo = document.getElementById('pago-efectivo-monto');
+
+    let totalTarjeta = 0;
+    let totalYape = 0;
+    let totalEfectivo = 0;
+
+    if (Array.isArray(estado.pagos) && estado.pagos.length > 0) {
+        estado.pagos.forEach(p => {
+            const monto = parseFloat(p.monto || 0);
+            const metodo = (p.metodoPago || '').toUpperCase();
+            if (metodo.includes('TARJETA') || metodo.includes('VISA') || metodo.includes('MASTERCARD')) {
+                totalTarjeta += monto;
+            } else if (metodo.includes('YAPE') || metodo.includes('PLIN')) {
+                totalYape += monto;
+            } else {
+                totalEfectivo += monto;
+            }
+        });
+    }
+
+    if (elTarjeta) elTarjeta.textContent = `S/ ${totalTarjeta.toFixed(2)}`;
+    if (elYape) elYape.textContent = `S/ ${totalYape.toFixed(2)}`;
+    if (elEfectivo) elEfectivo.textContent = `S/ ${totalEfectivo.toFixed(2)}`;
+}
