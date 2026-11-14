@@ -280,22 +280,95 @@
                     </div>
 
                     <div class="md:col-span-2 space-y-4">
-                        <div class="p-5 rounded-2xl bg-[#12100e] border border-stone-800 space-y-3">
+                        <div class="p-5 rounded-2xl bg-[#12100e] border border-stone-800 space-y-4">
+                            <span class="block text-xs font-bold text-white uppercase tracking-wider">
+                                Forma de Pago
+                            </span>
+                            
+                            <div class="grid grid-cols-3 gap-2">
+                                <button type="button" id="btn-metodo-tarjeta" onclick="seleccionarMetodoPago('TARJETA')" class="p-3 rounded-xl border border-cyan-500/50 bg-cyan-950/20 text-center transition flex flex-col items-center gap-1 group">
+                                    <span class="text-xl">💳</span>
+                                    <span class="text-[11px] font-bold text-cyan-300" id="texto-btn-metodo-tarjeta">Tarjeta</span>
+                                </button>
+                                <button type="button" id="btn-metodo-yape" onclick="seleccionarMetodoPago('YAPE')" class="p-3 rounded-xl border border-stone-800 bg-[#161412] hover:border-purple-500/40 text-center transition flex flex-col items-center gap-1 group">
+                                    <span class="text-xl">📱</span>
+                                    <span class="text-[11px] font-bold text-stone-400 group-hover:text-purple-300" id="texto-btn-metodo-yape">Yape / Plin</span>
+                                </button>
+                                <button type="button" id="btn-metodo-efectivo" onclick="seleccionarMetodoPago('EFECTIVO')" class="p-3 rounded-xl border border-stone-800 bg-[#161412] hover:border-amber-500/40 text-center transition flex flex-col items-center gap-1 group">
+                                    <span class="text-xl">💵</span>
+                                    <span class="text-[11px] font-bold text-stone-400 group-hover:text-amber-300" id="texto-btn-metodo-efectivo">En Sede</span>
+                                </button>
+                            </div>
+
+                            <div id="panel-pago-tarjeta" class="space-y-3 pt-2">
+                                <div>
+                                    <div class="flex items-center justify-between text-[11px] mb-1">
+                                        <label for="pago-tarjeta-numero" class="text-stone-300 font-semibold">Número de Tarjeta</label>
+                                        <div class="flex items-center gap-1">
+                                            <span class="px-1.5 py-0.5 rounded bg-blue-900/60 text-[9px] font-bold text-blue-300 border border-blue-500/30">VISA</span>
+                                            <span class="px-1.5 py-0.5 rounded bg-rose-900/60 text-[9px] font-bold text-rose-300 border border-rose-500/30">MC</span>
+                                        </div>
+                                    </div>
+                                    <input type="text" id="pago-tarjeta-numero" maxlength="19" placeholder="4000 1234 5678 9010" class="w-full bg-[#181614] border border-stone-700 rounded-xl px-3.5 py-2.5 text-xs text-stone-100 font-mono tracking-wider focus:outline-none focus:border-cyan-400">
+                                </div>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <div>
+                                        <label for="pago-tarjeta-expira" class="block text-[11px] text-stone-300 font-semibold mb-1">Vencimiento</label>
+                                        <input type="text" id="pago-tarjeta-expira" maxlength="5" placeholder="MM/AA" class="w-full bg-[#181614] border border-stone-700 rounded-xl px-3 py-2 text-xs text-stone-100 font-mono text-center focus:outline-none focus:border-cyan-400">
+                                    </div>
+                                    <div>
+                                        <label for="pago-tarjeta-cvv" class="block text-[11px] text-stone-300 font-semibold mb-1">CVV</label>
+                                        <input type="password" id="pago-tarjeta-cvv" maxlength="4" placeholder="123" class="w-full bg-[#181614] border border-stone-700 rounded-xl px-3 py-2 text-xs text-stone-100 font-mono text-center focus:outline-none focus:border-cyan-400">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="pago-tarjeta-titular" class="block text-[11px] text-stone-300 font-semibold mb-1">Titular</label>
+                                    <input type="text" id="pago-tarjeta-titular" placeholder="NOMBRE COMO EN LA TARJETA" class="w-full bg-[#181614] border border-stone-700 rounded-xl px-3.5 py-2 text-xs text-stone-100 uppercase focus:outline-none focus:border-cyan-400">
+                                </div>
+                                <div class="flex items-center justify-between pt-1 text-[10px]">
+                                    <button type="button" onclick="cargarTarjetaDemoAprobada()" class="text-cyan-400 hover:text-cyan-300 underline font-mono flex items-center gap-1 cursor-pointer">
+                                        <span>⚡ Cargar Tarjeta de Prueba</span>
+                                    </button>
+                                    <span class="text-stone-500">🔒 Cifrado SSL 256-bit</span>
+                                </div>
+                            </div>
+
+                            <div id="panel-pago-yape" class="hidden space-y-3 pt-2">
+                                <div class="p-3.5 rounded-xl bg-[#181614] border border-purple-500/30 text-center space-y-2">
+                                    <div class="w-28 h-28 mx-auto bg-white p-2 rounded-xl flex items-center justify-center shadow-lg">
+                                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=YAPE_AS_BARBERSHOP_MIRAFLORES" alt="QR Yape A&S" class="w-full h-full object-contain">
+                                    </div>
+                                    <div class="text-[11px]">
+                                        <span class="font-bold text-purple-400 block">A&S Barber Shop Miraflores</span>
+                                        <span class="text-stone-400">Celular: <strong class="text-stone-200">999 888 777</strong></span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="pago-yape-codigo" class="block text-[11px] text-stone-300 font-semibold mb-1">Código de Aprobación (6 dígitos)</label>
+                                    <input type="text" id="pago-yape-codigo" maxlength="6" placeholder="Ej: 582910" class="w-full bg-[#181614] border border-stone-700 rounded-xl px-3.5 py-2.5 text-xs text-stone-100 font-mono tracking-widest text-center focus:outline-none focus:border-purple-400">
+                                </div>
+                                <button type="button" onclick="generarCodigoYapeDemo()" class="text-[10px] text-purple-400 hover:text-purple-300 underline font-mono flex items-center gap-1 cursor-pointer">
+                                    <span>⚡ Generar Código de Prueba Yape</span>
+                                </button>
+                            </div>
+
+                            <div id="panel-pago-efectivo" class="hidden space-y-2 pt-2">
+                                <div class="p-3 rounded-xl bg-amber-950/20 border border-amber-500/30 text-amber-200 text-xs flex items-start gap-2">
+                                    <span class="text-base shrink-0">📍</span>
+                                    <span class="leading-relaxed">Pagarás directamente en caja al finalizar tu atención. Aceptamos efectivo, tarjetas y billeteras digitales.</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="p-4 rounded-2xl bg-[#12100e] border border-stone-800 space-y-2">
                             <label for="input-notas-cita" class="block text-xs font-bold text-white uppercase tracking-wider">
                                 Notas o Preferencias (Opcional)
                             </label>
-                            <textarea id="input-notas-cita" rows="3" placeholder="Ej: Degradado bajo en laterales, dejar largo arriba..." class="w-full bg-[#181614] border border-stone-700 rounded-xl p-3 text-xs text-stone-100 focus:outline-none focus:border-cyan-400"></textarea>
-                        </div>
-
-                        <div class="p-5 rounded-2xl bg-[#12100e] border border-stone-800 space-y-3">
-                            <label for="input-codigo-promo" class="block text-xs font-bold text-white uppercase tracking-wider">
-                                Código de Promoción (Opcional)
-                            </label>
-                            <input type="text" id="input-codigo-promo" placeholder="Ej: AS10, BIENVENIDA" class="w-full bg-[#181614] border border-stone-700 rounded-xl px-3.5 py-2.5 text-xs text-stone-100 focus:outline-none focus:border-cyan-400 uppercase font-mono">
+                            <textarea id="input-notas-cita" rows="2" placeholder="Ej: Degradado bajo en laterales, dejar largo arriba..." class="w-full bg-[#181614] border border-stone-700 rounded-xl p-2.5 text-xs text-stone-100 focus:outline-none focus:border-cyan-400"></textarea>
                         </div>
 
                         <button type="button" id="btn-confirmar-cita-final" class="w-full bg-gradient-to-r from-cyan-500 via-sky-400 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-stone-950 font-black py-4 px-6 rounded-2xl text-xs uppercase tracking-wider shadow-xl shadow-cyan-950/60 transition transform active:scale-95 flex items-center justify-center gap-2">
-                            <span>✓ Confirmar y Reservar Cita</span>
+                            <span id="btn-texto-confirmar">🔒 Pagar y Confirmar Reserva</span>
                         </button>
                     </div>
 
@@ -345,36 +418,47 @@
     </main>
 
     <div id="modal-cita-exitosa" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm items-center justify-center p-4">
-        <div class="bg-[#12100e] border border-cyan-500/40 rounded-3xl p-6 sm:p-8 max-w-md w-full text-center space-y-4 shadow-2xl">
-            <div class="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 mx-auto flex items-center justify-center text-3xl font-black shadow-lg shadow-emerald-950/50">
+        <div class="bg-[#12100e] border border-cyan-500/40 rounded-3xl p-6 sm:p-8 max-w-md w-full text-center space-y-4 shadow-2xl relative overflow-hidden">
+            <div class="w-14 h-14 rounded-full bg-emerald-500/20 text-emerald-400 mx-auto flex items-center justify-center text-2xl font-black shadow-lg shadow-emerald-950/50">
                 ✓
             </div>
             
-            <h3 class="text-2xl font-display text-white uppercase tracking-wider">¡Cita Reservada con Éxito!</h3>
-            <p class="text-xs text-stone-300 leading-relaxed">
-                Tu turno ha quedado confirmado en A&S Barber Shop Miraflores. Te esperamos puntualmente en el local.
-            </p>
+            <div>
+                <span id="modal-exito-badge-pago" class="inline-block px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-emerald-950/90 border border-emerald-500/40 text-emerald-400 mb-2">
+                    PAGO CONFIRMADO
+                </span>
+                <h3 class="text-2xl font-display text-white uppercase tracking-wider">¡Cita Reservada con Éxito!</h3>
+                <p class="text-xs text-stone-400 mt-1">Comprobante emitido para A&S Barber Shop Miraflores.</p>
+            </div>
 
-            <div class="p-4 rounded-xl bg-[#171513] border border-stone-800 text-xs space-y-2 text-left">
-                <div class="flex justify-between border-b border-stone-800 pb-1.5">
+            <div class="p-4 rounded-2xl bg-[#171513] border border-stone-800 text-xs space-y-2 text-left">
+                <div class="flex justify-between border-b border-stone-800/80 pb-1.5">
+                    <span class="text-stone-400">N° de Operación:</span>
+                    <strong id="modal-exito-referencia" class="text-cyan-400 font-mono">OP-2026-0000</strong>
+                </div>
+                <div class="flex justify-between border-b border-stone-800/80 pb-1.5">
+                    <span class="text-stone-400">Método de Pago:</span>
+                    <span id="modal-exito-metodo" class="text-stone-200 font-semibold">Tarjeta</span>
+                </div>
+                <div class="flex justify-between border-b border-stone-800/80 pb-1.5">
                     <span class="text-stone-400">Barbero:</span>
                     <strong id="modal-exito-barbero" class="text-white">---</strong>
                 </div>
-                <div class="flex justify-between border-b border-stone-800 pb-1.5">
+                <div class="flex justify-between border-b border-stone-800/80 pb-1.5">
                     <span class="text-stone-400">Fecha y Hora:</span>
-                    <strong id="modal-exito-fechahora" class="text-cyan-400">---</strong>
+                    <strong id="modal-exito-fechahora" class="text-stone-200">---</strong>
                 </div>
-                <div class="flex justify-between">
-                    <span class="text-stone-400">Ubicación:</span>
-                    <span class="text-stone-300">Galería Pardo · Sótano Tda. 18</span>
+                <div class="flex justify-between pt-1">
+                    <span class="text-stone-400 font-bold uppercase text-[10px]">Total Pagado:</span>
+                    <strong id="modal-exito-total" class="text-cyan-400 font-mono text-base font-black">S/ 0.00</strong>
                 </div>
             </div>
 
             <div class="pt-2 flex flex-col sm:flex-row gap-2">
-                <button type="button" onclick="document.getElementById('modal-cita-exitosa').classList.add('hidden'); activarPestana('mis-citas');" class="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-stone-950 font-black py-3 rounded-xl text-xs uppercase tracking-wider">
+                <button type="button" onclick="document.getElementById('modal-cita-exitosa').classList.add('hidden'); activarPestana('mis-citas');" class="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-stone-950 font-black py-3 rounded-xl text-xs uppercase tracking-wider transition">
                     Ver Mis Citas Agendadas
                 </button>
-                <a href="/" class="w-full border border-stone-700 hover:border-cyan-500 text-stone-300 hover:text-white py-3 rounded-xl text-xs font-bold uppercase tracking-wider text-center transition">
+                <a href="/" class="w-full border border-stone-700 hover:border-cyan-500 text-stone-300 hover:text-white py-3 rounded-xl text-xs font-bold uppercase tracking-wider text-center transition flex items-center justify-center">
                     Volver al Inicio
                 </a>
             </div>
@@ -388,6 +472,8 @@
         <p>© 2026 A&S Barber Shop · Portal Oficial de Clientes · Miraflores, Lima</p>
     </footer>
 
+    <script src="/js/core/api.js"></script>
+    <script src="/js/core/ui.js"></script>
     <script src="/js/cliente/reservas.js"></script>
 </body>
 </html>

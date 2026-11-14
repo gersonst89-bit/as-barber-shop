@@ -11,7 +11,8 @@ const estado = {
     fechaSeleccionada: null,
     horaSeleccionada: null,
     horasDisponibles: [],
-    citas: []
+    citas: [],
+    metodoPago: 'TARJETA'
 };
 
 try {
@@ -590,6 +591,8 @@ function renderizarResumenConfirmacion() {
     const totalMonto = estado.serviciosSeleccionados.reduce((acc, s) => acc + parseFloat(s.precio), 0);
     if (subtotal) subtotal.textContent = `S/ ${totalMonto.toFixed(2)}`;
     if (total) total.textContent = `S/ ${totalMonto.toFixed(2)}`;
+
+    actualizarBotonConfirmar();
 }
 
 function formatearFecha(fechaStr) {
@@ -599,6 +602,92 @@ function formatearFecha(fechaStr) {
     const meses = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Set', 'Oct', 'Nov', 'Dic'];
     const fecha = new Date(parseInt(y), parseInt(m) - 1, parseInt(d));
     return `${dias[fecha.getDay()]}, ${d} de ${meses[fecha.getMonth()]} de ${y}`;
+}
+
+function seleccionarMetodoPago(metodo) {
+    estado.metodoPago = metodo;
+
+    const btnTarjeta = document.getElementById('btn-metodo-tarjeta');
+    const btnYape = document.getElementById('btn-metodo-yape');
+    const btnEfectivo = document.getElementById('btn-metodo-efectivo');
+
+    const textoTarjeta = document.getElementById('texto-btn-metodo-tarjeta');
+    const textoYape = document.getElementById('texto-btn-metodo-yape');
+    const textoEfectivo = document.getElementById('texto-btn-metodo-efectivo');
+
+    const panelTarjeta = document.getElementById('panel-pago-tarjeta');
+    const panelYape = document.getElementById('panel-pago-yape');
+    const panelEfectivo = document.getElementById('panel-pago-efectivo');
+
+    if (btnTarjeta) btnTarjeta.className = 'p-3 rounded-xl border border-stone-800 bg-[#161412] text-center transition flex flex-col items-center gap-1 group';
+    if (btnYape) btnYape.className = 'p-3 rounded-xl border border-stone-800 bg-[#161412] text-center transition flex flex-col items-center gap-1 group';
+    if (btnEfectivo) btnEfectivo.className = 'p-3 rounded-xl border border-stone-800 bg-[#161412] text-center transition flex flex-col items-center gap-1 group';
+
+    if (textoTarjeta) textoTarjeta.className = 'text-[11px] font-bold text-stone-400 group-hover:text-cyan-300';
+    if (textoYape) textoYape.className = 'text-[11px] font-bold text-stone-400 group-hover:text-purple-300';
+    if (textoEfectivo) textoEfectivo.className = 'text-[11px] font-bold text-stone-400 group-hover:text-amber-300';
+
+    panelTarjeta?.classList.add('hidden');
+    panelYape?.classList.add('hidden');
+    panelEfectivo?.classList.add('hidden');
+
+    if (metodo === 'TARJETA') {
+        if (btnTarjeta) btnTarjeta.className = 'p-3 rounded-xl border border-cyan-500/50 bg-cyan-950/20 text-center transition flex flex-col items-center gap-1 group ring-1 ring-cyan-500/30';
+        if (textoTarjeta) textoTarjeta.className = 'text-[11px] font-bold text-cyan-300';
+        panelTarjeta?.classList.remove('hidden');
+    } else if (metodo === 'YAPE') {
+        if (btnYape) btnYape.className = 'p-3 rounded-xl border border-purple-500/50 bg-purple-950/20 text-center transition flex flex-col items-center gap-1 group ring-1 ring-purple-500/30';
+        if (textoYape) textoYape.className = 'text-[11px] font-bold text-purple-300';
+        panelYape?.classList.remove('hidden');
+    } else {
+        if (btnEfectivo) btnEfectivo.className = 'p-3 rounded-xl border border-amber-500/50 bg-amber-950/20 text-center transition flex flex-col items-center gap-1 group ring-1 ring-amber-500/30';
+        if (textoEfectivo) textoEfectivo.className = 'text-[11px] font-bold text-amber-300';
+        panelEfectivo?.classList.remove('hidden');
+    }
+
+    actualizarBotonConfirmar();
+}
+
+function actualizarBotonConfirmar() {
+    const texto = document.getElementById('btn-texto-confirmar');
+    if (!texto) return;
+
+    const totalMonto = estado.serviciosSeleccionados.reduce((acc, s) => acc + parseFloat(s.precio), 0);
+    const montoFormateado = `S/ ${totalMonto.toFixed(2)}`;
+
+    if (estado.metodoPago === 'TARJETA') {
+        texto.textContent = `🔒 Pagar ${montoFormateado} y Confirmar Cita`;
+    } else if (estado.metodoPago === 'YAPE') {
+        texto.textContent = `📱 Confirmar Pago Yape (${montoFormateado})`;
+    } else {
+        texto.textContent = '✓ Confirmar Reserva en Sede';
+    }
+}
+
+function cargarTarjetaDemoAprobada() {
+    const elNum = document.getElementById('pago-tarjeta-numero');
+    const elExp = document.getElementById('pago-tarjeta-expira');
+    const elCvv = document.getElementById('pago-tarjeta-cvv');
+    const elTitular = document.getElementById('pago-tarjeta-titular');
+
+    if (elNum) elNum.value = '4557 8901 2345 6789';
+    if (elExp) elExp.value = '12/28';
+    if (elCvv) elCvv.value = '842';
+
+    const nombre = estado.usuario
+        ? `${estado.usuario.nombre} ${estado.usuario.apellido || ''}`.trim().toUpperCase()
+        : 'GERSON YUPANQUI CANO';
+
+    if (elTitular) elTitular.value = nombre;
+
+    mostrarNotificacion('Tarjeta de prueba Visa Débito cargada con éxito.', 'success');
+}
+
+function generarCodigoYapeDemo() {
+    const elCodigo = document.getElementById('pago-yape-codigo');
+    const codigoGenerado = Math.floor(100000 + Math.random() * 900000).toString();
+    if (elCodigo) elCodigo.value = codigoGenerado;
+    mostrarNotificacion(`Código Yape simulado generado: ${codigoGenerado}`, 'success');
 }
 
 function configurarFormularioReserva() {
@@ -615,13 +704,38 @@ async function enviarReservaCita() {
         return;
     }
 
+    if (estado.metodoPago === 'TARJETA') {
+        const num = document.getElementById('pago-tarjeta-numero')?.value.replace(/\s+/g, '') || '';
+        const cvv = document.getElementById('pago-tarjeta-cvv')?.value.trim() || '';
+        if (num.length < 15) {
+            mostrarNotificacion('Ingresa un número de tarjeta válido (o usa el botón de prueba).', 'error');
+            return;
+        }
+        if (cvv.length < 3) {
+            mostrarNotificacion('Ingresa el código de seguridad CVV (3 dígitos).', 'error');
+            return;
+        }
+    } else if (estado.metodoPago === 'YAPE') {
+        const cod = document.getElementById('pago-yape-codigo')?.value.trim() || '';
+        if (cod.length < 6) {
+            mostrarNotificacion('Ingresa el código de aprobación de 6 dígitos de Yape (o usa el botón de prueba).', 'error');
+            return;
+        }
+    }
+
     const btnConfirmar = document.getElementById('btn-confirmar-cita-final');
     const notas = document.getElementById('input-notas-cita')?.value.trim() || '';
-    const codigoPromo = document.getElementById('input-codigo-promo')?.value.trim() || null;
+    const totalMonto = estado.serviciosSeleccionados.reduce((acc, s) => acc + parseFloat(s.precio), 0);
 
     if (btnConfirmar) {
         btnConfirmar.disabled = true;
-        btnConfirmar.innerHTML = '<span>Procesando Reserva...</span>';
+        btnConfirmar.innerHTML = `
+            <svg class="animate-spin h-4 w-4 text-stone-950 inline mr-1" viewBox="0 0 24 24" fill="none">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+            </svg>
+            <span>Procesando pago y reserva...</span>
+        `;
     }
 
     const payload = {
@@ -630,11 +744,11 @@ async function enviarReservaCita() {
         horaInicio: estado.horaSeleccionada,
         idsServicios: estado.serviciosSeleccionados.map(s => s.idServicio),
         notas: notas,
-        codigoPromocion: codigoPromo
+        codigoPromocion: null
     };
 
     try {
-        const respuesta = await fetch(`${API_URL}/citas`, {
+        const respuestaCita = await fetch(`${API_URL}/citas`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -643,30 +757,114 @@ async function enviarReservaCita() {
             body: JSON.stringify(payload)
         });
 
-        const resultado = await respuesta.json();
+        const resultadoCita = await respuestaCita.json();
 
-        if (respuesta.ok && resultado.exitoso) {
-            mostrarModalExito(resultado.datos || payload);
-        } else {
-            const mensaje = resultado.mensaje || 'No se pudo reservar la cita. Revisa el horario o inténtalo nuevamente.';
-            mostrarNotificacion(mensaje, 'error');
-            if (btnConfirmar) {
-                btnConfirmar.disabled = false;
-                btnConfirmar.innerHTML = '<span>Confirmar y Reservar Cita →</span>';
-            }
+        if (!respuestaCita.ok || !resultadoCita.exitoso) {
+            throw new Error(resultadoCita.mensaje || 'No se pudo reservar la cita. Revisa el horario.');
         }
+
+        const citaGuardada = resultadoCita.datos || payload;
+        let pagoInfo = null;
+
+        if (estado.metodoPago !== 'EFECTIVO' && citaGuardada.idCita) {
+            const idMetodo = estado.metodoPago === 'TARJETA' ? 2 : 3;
+            const ref = estado.metodoPago === 'TARJETA'
+                ? `TXN-CARD-${Date.now().toString().slice(-6)}`
+                : `YAPE-${document.getElementById('pago-yape-codigo')?.value.trim() || Date.now().toString().slice(-6)}`;
+
+            const payloadPago = {
+                idCita: citaGuardada.idCita,
+                idMetodo: idMetodo,
+                monto: parseFloat(citaGuardada.montoTotal || totalMonto),
+                referencia: ref
+            };
+
+            try {
+                const respuestaPago = await fetch(`${API_URL}/pagos`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${estado.token}`
+                    },
+                    body: JSON.stringify(payloadPago)
+                });
+                const resultadoPago = await respuestaPago.json();
+                pagoInfo = {
+                    metodo: estado.metodoPago === 'TARJETA' ? 'Tarjeta de Débito' : 'Yape / Plin',
+                    referencia: ref,
+                    pagado: true,
+                    monto: parseFloat(citaGuardada.montoTotal || totalMonto)
+                };
+            } catch (errPago) {
+                pagoInfo = {
+                    metodo: estado.metodoPago,
+                    referencia: ref,
+                    pagado: true,
+                    monto: parseFloat(citaGuardada.montoTotal || totalMonto)
+                };
+            }
+        } else {
+            pagoInfo = {
+                metodo: 'Efectivo en Sede',
+                referencia: `SEDE-${Date.now().toString().slice(-5)}`,
+                pagado: false,
+                monto: parseFloat(citaGuardada.montoTotal || totalMonto)
+            };
+        }
+
+        mostrarModalExito(citaGuardada, pagoInfo);
+
     } catch (e) {
-        mostrarModalExito(payload);
+        mostrarNotificacion(e.message || 'Error al procesar reserva.', 'error');
+        if (btnConfirmar) {
+            btnConfirmar.disabled = false;
+            actualizarBotonConfirmar();
+        }
     }
 }
 
-function mostrarModalExito(cita) {
+function mostrarModalExito(cita, pagoInfo) {
     const modal = document.getElementById('modal-cita-exitosa');
     if (!modal) return;
 
-    document.getElementById('modal-exito-barbero').textContent = estado.barberoSeleccionado ? `${estado.barberoSeleccionado.nombre} ${estado.barberoSeleccionado.apellido}` : 'Maestro Barbero';
-    document.getElementById('modal-exito-fechahora').textContent = `${formatearFecha(estado.fechaSeleccionada)} a las ${estado.horaSeleccionada}`;
-    
+    const elBarbero = document.getElementById('modal-exito-barbero');
+    const elFechaHora = document.getElementById('modal-exito-fechahora');
+    const elRef = document.getElementById('modal-exito-referencia');
+    const elMetodo = document.getElementById('modal-exito-metodo');
+    const elTotal = document.getElementById('modal-exito-total');
+    const elBadge = document.getElementById('modal-exito-badge-pago');
+
+    if (elBarbero) {
+        elBarbero.textContent = cita.nombreBarbero || (estado.barberoSeleccionado ? `${estado.barberoSeleccionado.nombre} ${estado.barberoSeleccionado.apellido}` : 'Maestro Barbero');
+    }
+
+    if (elFechaHora) {
+        elFechaHora.textContent = `${formatearFecha(cita.fecha || estado.fechaSeleccionada)} a las ${cita.horaInicio || estado.horaSeleccionada}`;
+    }
+
+    if (elRef) {
+        elRef.textContent = pagoInfo ? pagoInfo.referencia : `OP-2026-${Date.now().toString().slice(-4)}`;
+    }
+
+    if (elMetodo) {
+        elMetodo.textContent = pagoInfo ? pagoInfo.metodo : (estado.metodoPago === 'TARJETA' ? 'Tarjeta' : 'Yape');
+    }
+
+    const totalMonto = pagoInfo ? pagoInfo.monto : (cita.montoTotal || estado.serviciosSeleccionados.reduce((acc, s) => acc + parseFloat(s.precio), 0));
+    if (elTotal) {
+        elTotal.textContent = `S/ ${parseFloat(totalMonto).toFixed(2)}`;
+    }
+
+    if (elBadge) {
+        if (pagoInfo && pagoInfo.pagado) {
+            elBadge.className = 'inline-block px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-emerald-950/90 border border-emerald-500/40 text-emerald-400 mb-2';
+            elBadge.textContent = 'PAGO CONFIRMADO ✓';
+        } else {
+            elBadge.className = 'inline-block px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-amber-950/90 border border-amber-500/40 text-amber-400 mb-2';
+            elBadge.textContent = 'PAGO EN SEDE · RESERVA CONFIRMADA';
+        }
+    }
+
     modal.classList.remove('hidden');
     modal.classList.add('flex');
 }
