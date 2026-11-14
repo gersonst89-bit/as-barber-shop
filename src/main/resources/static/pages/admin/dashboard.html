@@ -173,15 +173,12 @@
                     <span id="reloj-sede-vivo">Miraflores, Lima</span>
                 </div>
 
-                <a href="/pages/cliente/reservas.html" target="_blank" class="px-3 py-1.5 rounded-xl border border-stone-700 hover:border-cyan-400 text-stone-200 hover:text-white font-semibold text-xs flex items-center gap-1.5 transition">
-                    <span>📅</span>
-                    <span class="hidden sm:inline">Nueva Cita</span>
-                </a>
-
-                <a href="/pages/admin/usuarios.html" class="px-3 py-1.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-stone-950 font-bold text-xs flex items-center gap-1.5 transition shadow-lg shadow-cyan-950/40">
-                    <span>+</span>
-                    <span class="hidden sm:inline">Nuevo Barbero</span>
-                </a>
+                <button type="button" id="btn-refrescar-dashboard" class="px-3.5 py-1.5 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 text-cyan-400 font-bold text-xs flex items-center gap-2 transition shadow-sm">
+                    <svg id="icono-refrescar" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                    </svg>
+                    <span>Refrescar</span>
+                </button>
             </div>
 
         </header>
@@ -202,9 +199,8 @@
                     </div>
                     <div class="mt-3">
                         <span id="kpi-ingresos-totales" class="text-3xl font-black font-mono text-white tracking-tight block">S/ 0.00</span>
-                        <div class="flex items-center gap-2 mt-1.5">
+                        <div class="mt-2.5">
                             <span class="px-2 py-0.5 rounded-full text-[9px] font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">Caja Activa</span>
-                            <span class="text-[10px] text-stone-300">Cobrado acumulado</span>
                         </div>
                     </div>
                 </div>
@@ -220,9 +216,8 @@
                     </div>
                     <div class="mt-3">
                         <span id="kpi-citas-totales" class="text-3xl font-black font-mono text-white tracking-tight block">0</span>
-                        <div class="flex items-center gap-2 mt-1.5">
+                        <div class="mt-2.5">
                             <span class="px-2 py-0.5 rounded-full text-[9px] font-bold bg-cyan-500/15 text-cyan-400 border border-cyan-500/30">En Agenda</span>
-                            <span class="text-[10px] text-stone-300">Total en el sistema</span>
                         </div>
                     </div>
                 </div>
@@ -238,16 +233,15 @@
                     </div>
                     <div class="mt-3">
                         <span id="kpi-clientes-registrados" class="text-3xl font-black font-mono text-amber-400 tracking-tight block">0</span>
-                        <div class="flex items-center gap-2 mt-1.5">
+                        <div class="mt-2.5">
                             <span class="px-2 py-0.5 rounded-full text-[9px] font-bold bg-amber-500/15 text-amber-400 border border-amber-500/30">Cuentas</span>
-                            <span class="text-[10px] text-stone-300">Registrados en MySQL</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="relative overflow-hidden p-5 rounded-2xl bg-gradient-to-br from-[#151311] to-[#0e0d0b] border border-stone-800 shadow-xl group hover:border-stone-700 transition-all">
                     <div class="flex items-center justify-between">
-                        <span class="text-[10px] text-stone-300 uppercase font-black tracking-widest">Maestros Barberos</span>
+                        <span class="text-[10px] text-stone-300 uppercase font-black tracking-widest">Barberos</span>
                         <div class="w-8 h-8 rounded-xl bg-purple-500/15 border border-purple-500/30 flex items-center justify-center text-purple-400">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
@@ -256,9 +250,8 @@
                     </div>
                     <div class="mt-3">
                         <span id="kpi-barberos-activos" class="text-3xl font-black font-mono text-cyan-300 tracking-tight block">0</span>
-                        <div class="flex items-center gap-2 mt-1.5">
-                            <span class="px-2 py-0.5 rounded-full text-[9px] font-bold bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">Miraflores</span>
-                            <span class="text-[10px] text-stone-300">Sillones disponibles</span>
+                        <div class="mt-2.5">
+                            <span class="px-2 py-0.5 rounded-full text-[9px] font-bold bg-purple-500/15 text-purple-400 border border-purple-500/30">Miraflores</span>
                         </div>
                     </div>
                 </div>

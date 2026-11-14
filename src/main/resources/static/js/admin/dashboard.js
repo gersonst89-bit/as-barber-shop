@@ -63,6 +63,16 @@ function configurarCabecera() {
         sessionStorage.removeItem('as_usuario');
         window.location.href = '/';
     });
+
+    const btnRefrescar = document.getElementById('btn-refrescar-dashboard');
+    const iconoRefrescar = document.getElementById('icono-refrescar');
+    btnRefrescar?.addEventListener('click', async () => {
+        iconoRefrescar?.classList.add('animate-spin');
+        await cargarDatosGlobales();
+        setTimeout(() => {
+            iconoRefrescar?.classList.remove('animate-spin');
+        }, 500);
+    });
 }
 
 function configurarSidebarMovil() {
