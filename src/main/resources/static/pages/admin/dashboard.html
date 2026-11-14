@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Control Ejecutivo · A&S Barber Shop Miraflores</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -257,6 +258,46 @@
                     </div>
                 </div>
 
+            </section>
+
+            <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="lg:col-span-2 p-6 rounded-2xl bg-gradient-to-br from-[#141210] to-[#0d0c0a] border border-cyan-500/30 shadow-2xl shadow-cyan-950/20 space-y-4">
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 border-b border-stone-800/80 pb-3">
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse"></span>
+                                <h3 class="text-xs font-bold text-white uppercase tracking-wider font-mono">Evolución de Ingresos Semanales</h3>
+                            </div>
+                            <p class="text-[11px] text-stone-300 mt-0.5">Recaudación por día y tendencia de facturación en Soles</p>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="px-3 py-1 rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 font-mono text-xs font-bold">
+                                Facturado: <span id="grafico-total-semanal">S/ 0.00</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="h-64 relative w-full">
+                        <canvas id="chart-ingresos-semanales"></canvas>
+                    </div>
+                </div>
+
+                <div class="p-6 rounded-2xl bg-gradient-to-br from-[#141210] to-[#0d0c0a] border border-amber-500/30 shadow-2xl shadow-amber-950/20 space-y-4 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between border-b border-stone-800/80 pb-3">
+                            <div class="flex items-center gap-2">
+                                <span class="text-base text-amber-400">✂️</span>
+                                <h3 class="text-xs font-bold text-white uppercase tracking-wider font-mono">Rendimiento por Barbero</h3>
+                            </div>
+                            <span class="text-[10px] text-amber-400 font-mono font-bold">Cuota de Citas</span>
+                        </div>
+                        <p class="text-[11px] text-stone-300 mt-2">Distribución de clientes atendidos por maestro estilista</p>
+                        <div class="h-48 relative w-full flex items-center justify-center mt-2">
+                            <canvas id="chart-rendimiento-barberos"></canvas>
+                        </div>
+                    </div>
+                    <div id="leyenda-barberos" class="grid grid-cols-3 gap-2 pt-3 border-t border-stone-800/80 text-center text-[10px]">
+                    </div>
+                </div>
             </section>
 
             <section class="p-4 rounded-2xl bg-[#12100e] border border-stone-800/80 shadow-xl space-y-3">
