@@ -8,6 +8,8 @@
     </title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="/js/tailwind-config.js"></script>
+    <script src="/js/core/api.js"></script>
+    <script src="/js/core/ui.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet" />
@@ -79,9 +81,9 @@
               <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
               <span>BARBERÍA CLÁSICA EN MIRAFLORES</span>
             </div>
-            <h1 class="text-5xl sm:text-7xl lg:text-8xl font-display text-white tracking-wide leading-[1.08] uppercase">
+            <h1 class="text-5xl sm:text-7xl lg:text-8xl font-display text-white tracking-wide leading-[1.1] uppercase">
               TU ESTILO
-              <span class="bg-gradient-to-r from-cyan-400 via-sky-300 to-blue-400 bg-clip-text text-transparent block pt-1.5 pb-1">COMIENZA AQUÍ</span>
+              <span class="bg-gradient-to-r from-cyan-400 via-sky-300 to-blue-400 bg-clip-text text-transparent block pt-4 -mt-2 pb-1">COMIENZA AQUÍ</span>
             </h1>
             <p class="text-stone-300 text-sm sm:text-base leading-relaxed max-w-lg">
               Cortes de precisión a tijera, degradados modernos y el auténtico
@@ -131,100 +133,9 @@
           </p>
         </div>
         <div id="grilla-servicios" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div class="bg-[#12100e] border border-stone-800 hover:border-cyan-500/50 rounded-2xl p-6 flex flex-col justify-between transition duration-200 shadow-xl group">
-            <div class="space-y-4">
-              <div class="flex items-center justify-between">
-                <span class="px-2.5 py-1 rounded-lg bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-bold uppercase tracking-wider">
-                  Corte
-                </span>
-                <span class="text-xs text-stone-400 font-semibold flex items-center gap-1">
-                  ⏱️ 30 min
-                </span>
-              </div>
-              <div>
-                <h3 class="text-lg font-bold text-white group-hover:text-cyan-400 transition">
-                  Corte Clásico Miraflores
-                </h3>
-                <p class="text-xs text-stone-400 mt-2 leading-relaxed">
-                  Corte a tijera y máquina según la morfología del rostro,
-                  lavado capilar premium con masaje y peinado con pomada mate.
-                </p>
-              </div>
-            </div>
-            <div class="pt-5 mt-5 border-t border-stone-800/80 flex items-center justify-between">
-              <div>
-                <span class="text-[10px] text-stone-400 uppercase tracking-wider block">Precio</span>
-                <span class="text-xl font-black text-cyan-400 font-mono">S/ 35.00</span>
-              </div>
-              <a href="/pages/cliente/reservas.html" class="px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-stone-950 font-black text-xs uppercase tracking-wider transition">
-                Reservar Turno
-              </a>
-            </div>
-          </div>
-          <div class="bg-[#12100e] border border-cyan-500/40 rounded-2xl p-6 flex flex-col justify-between shadow-2xl shadow-cyan-950/20 relative group">
-            <span class="absolute -top-3 right-6 bg-gradient-to-r from-cyan-500 to-blue-600 text-stone-950 font-black text-[10px] px-3 py-0.5 rounded-full uppercase tracking-wider shadow">
-              Favorito Clientes
-            </span>
-            <div class="space-y-4">
-              <div class="flex items-center justify-between">
-                <span class="px-2.5 py-1 rounded-lg bg-cyan-500/15 border border-cyan-500/30 text-cyan-400 text-xs font-bold uppercase tracking-wider">
-                  Barba
-                </span>
-                <span class="text-xs text-stone-400 font-semibold flex items-center gap-1">
-                  ⏱️ 25 min
-                </span>
-              </div>
-              <div>
-                <h3 class="text-lg font-bold text-white group-hover:text-cyan-400 transition">
-                  Perfilado de Barba & Toalla Caliente
-                </h3>
-                <p class="text-xs text-stone-400 mt-2 leading-relaxed">
-                  Diseño simétrico, afeitado a navaja tradicional con toalla
-                  caliente aromatizada, aplicación de bálsamo calmante y aceite
-                  nutritivo.
-                </p>
-              </div>
-            </div>
-            <div class="pt-5 mt-5 border-t border-stone-800/80 flex items-center justify-between">
-              <div>
-                <span class="text-[10px] text-stone-400 uppercase tracking-wider block">Precio</span>
-                <span class="text-xl font-black text-cyan-400 font-mono">S/ 25.00</span>
-              </div>
-              <a href="/pages/cliente/reservas.html" class="px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-stone-950 font-black text-xs uppercase tracking-wider transition">
-                Reservar Turno
-              </a>
-            </div>
-          </div>
-          <div class="bg-[#12100e] border border-stone-800 hover:border-cyan-500/50 rounded-2xl p-6 flex flex-col justify-between transition duration-200 shadow-xl group">
-            <div class="space-y-4">
-              <div class="flex items-center justify-between">
-                <span class="px-2.5 py-1 rounded-lg bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-bold uppercase tracking-wider">
-                  Experiencia VIP
-                </span>
-                <span class="text-xs text-stone-400 font-semibold flex items-center gap-1">
-                  ⏱️ 55 min
-                </span>
-              </div>
-              <div>
-                <h3 class="text-lg font-bold text-white group-hover:text-cyan-400 transition">
-                  Ritual Completo A&S
-                </h3>
-                <p class="text-xs text-stone-400 mt-2 leading-relaxed">
-                  El paquete definitivo: Corte de autor, diseño de barba a
-                  navaja, exfoliación facial con vapor ozono y masaje capilar
-                  relajante.
-                </p>
-              </div>
-            </div>
-            <div class="pt-5 mt-5 border-t border-stone-800/80 flex items-center justify-between">
-              <div>
-                <span class="text-[10px] text-stone-400 uppercase tracking-wider block">Precio</span>
-                <span class="text-xl font-black text-cyan-400 font-mono">S/ 55.00</span>
-              </div>
-              <a href="/pages/cliente/reservas.html" class="px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-stone-950 font-black text-xs uppercase tracking-wider transition">
-                Reservar Turno
-              </a>
-            </div>
+          <div class="col-span-full py-12 text-center text-stone-400 text-xs flex items-center justify-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+            <span>Cargando servicios y tarifas oficiales...</span>
           </div>
         </div>
       </section>
@@ -391,70 +302,9 @@
           </p>
         </div>
         <div id="grilla-barberos" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div class="bg-[#12100e] border border-stone-800 hover:border-cyan-500/40 rounded-2xl p-6 text-center space-y-4 transition duration-200 shadow-xl group">
-            <div class="w-24 h-24 mx-auto rounded-full bg-gradient-to-tr from-cyan-500 to-blue-700 p-0.5 shadow-xl shadow-cyan-950/40 overflow-hidden group-hover:scale-105 transition duration-300">
-              <img src="/img/avatar-barbero-1.jpg" alt="Master Barber A&S" class="w-full h-full object-cover" />
-            </div>
-            <div>
-              <h3 class="text-base font-bold text-white">Carlos Mendoza</h3>
-              <p class="text-xs text-cyan-400 font-bold uppercase tracking-wider mt-0.5">
-                Master Barber · Especialista en Fade
-              </p>
-              <p class="text-xs text-stone-400 mt-2 leading-relaxed">
-                Más de 8 años de trayectoria en corte clásico a tijera y
-                afeitado tradicional a navaja en Miraflores.
-              </p>
-            </div>
-            <div class="pt-2 border-t border-stone-800">
-              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold bg-emerald-950/80 text-emerald-400 border border-emerald-600/40">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                Disponible hoy
-              </span>
-            </div>
-          </div>
-          <div class="bg-[#12100e] border border-stone-800 hover:border-cyan-500/40 rounded-2xl p-6 text-center space-y-4 transition duration-200 shadow-xl group">
-            <div class="w-24 h-24 mx-auto rounded-full bg-gradient-to-tr from-cyan-500 to-blue-700 p-0.5 shadow-xl shadow-cyan-950/40 overflow-hidden group-hover:scale-105 transition duration-300">
-              <img src="/img/avatar-barbero-2.jpg" alt="Maestro Barbero A&S" class="w-full h-full object-cover" />
-            </div>
-            <div>
-              <h3 class="text-base font-bold text-white">Roberto Salazar</h3>
-              <p class="text-xs text-cyan-400 font-bold uppercase tracking-wider mt-0.5">
-                Especialista en Barba & Ritual
-              </p>
-              <p class="text-xs text-stone-400 mt-2 leading-relaxed">
-                Experto en perfilado simétrico de barba, tratamientos con toalla
-                caliente y cuidado dérmico.
-              </p>
-            </div>
-            <div class="pt-2 border-t border-stone-800">
-              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold bg-emerald-950/80 text-emerald-400 border border-emerald-600/40">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                Disponible hoy
-              </span>
-            </div>
-          </div>
-          <div class="bg-[#12100e] border border-stone-800 hover:border-cyan-500/40 rounded-2xl p-6 text-center space-y-4 transition duration-200 shadow-xl">
-            <div class="w-20 h-20 mx-auto rounded-full bg-gradient-to-tr from-cyan-500 to-blue-700 p-0.5 shadow-xl shadow-cyan-950/40">
-              <div class="w-full h-full rounded-full bg-[#171513] flex items-center justify-center text-2xl font-black text-cyan-400">
-                AS
-              </div>
-            </div>
-            <div>
-              <h3 class="text-base font-bold text-white">Alejandro Suárez</h3>
-              <p class="text-xs text-cyan-400 font-bold uppercase tracking-wider mt-0.5">
-                Estilista Clásico & Pompadour
-              </p>
-              <p class="text-xs text-stone-400 mt-2 leading-relaxed">
-                Apasionado de los peinados estructurados vintage, texturas
-                naturales y acabados mate.
-              </p>
-            </div>
-            <div class="pt-2 border-t border-stone-800">
-              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold bg-emerald-950/80 text-emerald-400 border border-emerald-600/40">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                Disponible hoy
-              </span>
-            </div>
+          <div class="col-span-full py-12 text-center text-stone-400 text-xs flex items-center justify-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+            <span>Cargando equipo de maestros barberos...</span>
           </div>
         </div>
       </section>

@@ -1,17 +1,16 @@
-const token = localStorage.getItem('as_token') || sessionStorage.getItem('as_token');
-const usuarioGuardado = localStorage.getItem('as_usuario') || sessionStorage.getItem('as_usuario');
+function iniciarCabeceraSesion() {
+    const token = api.getToken();
+    const usuario = api.getUsuario();
 
-const contenedorAcciones = document.getElementById('contenedor-acciones-cabecera');
-const contenedorUsuario = document.getElementById('contenedor-usuario-activo');
-const nombreCabecera = document.getElementById('nombre-usuario-cabecera');
-const rolCabecera = document.getElementById('rol-usuario-cabecera');
-const avatarCabecera = document.getElementById('avatar-usuario-cabecera');
-const enlacePanel = document.getElementById('enlace-panel-usuario');
-const btnHero = document.getElementById('btn-reservar-hero');
+    const contenedorAcciones = document.getElementById('contenedor-acciones-cabecera');
+    const contenedorUsuario = document.getElementById('contenedor-usuario-activo');
+    const nombreCabecera = document.getElementById('nombre-usuario-cabecera');
+    const rolCabecera = document.getElementById('rol-usuario-cabecera');
+    const avatarCabecera = document.getElementById('avatar-usuario-cabecera');
+    const enlacePanel = document.getElementById('enlace-panel-usuario');
+    const btnHero = document.getElementById('btn-reservar-hero');
 
-if (token && usuarioGuardado) {
-    try {
-        const usuario = JSON.parse(usuarioGuardado);
+    if (token && usuario) {
         if (contenedorAcciones) contenedorAcciones.classList.add('hidden');
         if (contenedorUsuario) {
             contenedorUsuario.classList.remove('hidden');
@@ -24,39 +23,30 @@ if (token && usuarioGuardado) {
             avatarCabecera.textContent = usuario.nombre.charAt(0).toUpperCase();
         }
 
-        if (usuario.rol === 'ADMIN') {
-            if (enlacePanel) enlacePanel.href = '/pages/admin/dashboard.html';
-            if (btnHero) btnHero.href = '/pages/admin/dashboard.html';
-        } else if (usuario.rol === 'BARBERO') {
-            if (enlacePanel) enlacePanel.href = '/pages/barbero/agenda.html';
-            if (btnHero) btnHero.href = '/pages/barbero/agenda.html';
-        } else {
-            if (enlacePanel) enlacePanel.href = '/pages/cliente/reservas.html';
-            if (btnHero) btnHero.href = '/pages/cliente/reservas.html';
-        }
-    } catch (e) {
-        localStorage.removeItem('as_token');
-        localStorage.removeItem('as_usuario');
+        const rutaPanel = usuario.rol === 'ADMIN' 
+            ? '/pages/admin/dashboard.html'
+            : (usuario.rol === 'BARBERO' ? '/pages/barbero/agenda.html' : '/pages/cliente/reservas.html');
+
+        if (enlacePanel) enlacePanel.href = rutaPanel;
+        if (btnHero) btnHero.href = rutaPanel;
     }
+
+    document.getElementById('btn-cerrar-sesion-cabecera')?.addEventListener('click', () => {
+        api.limpiarSesion();
+        window.location.href = '/';
+    });
 }
 
-document.getElementById('btn-cerrar-sesion-cabecera')?.addEventListener('click', () => {
-    localStorage.removeItem('as_token');
-    localStorage.removeItem('as_usuario');
-    sessionStorage.removeItem('as_token');
-    sessionStorage.removeItem('as_usuario');
-    window.location.href = '/';
-});
-
 async function cargarCatalogoServicios() {
-    try {
-        const respuesta = await fetch('/api/servicios');
-        if (!respuesta.ok) return;
-        const datos = await respuesta.json();
-        if (!datos.exitoso || !datos.datos || datos.datos.length === 0) return;
+    const grilla = document.getElementById('grilla-servicios');
+    if (!grilla) return;
 
-        const grilla = document.getElementById('grilla-servicios');
-        if (!grilla) return;
+    try {
+        const datos = await api.get('/api/servicios');
+        if (!datos || !datos.exitoso || !datos.datos || datos.datos.length === 0) {
+            grilla.innerHTML = `<div class="col-span-full text-center py-8 text-stone-500 text-xs">No hay servicios disponibles temporalmente.</div>`;
+            return;
+        }
 
         grilla.innerHTML = '';
         datos.datos.forEach(servicio => {
@@ -80,7 +70,7 @@ async function cargarCatalogoServicios() {
                 <div class="pt-5 mt-5 border-t border-stone-800/80 flex items-center justify-between">
                     <div>
                         <span class="text-[10px] text-stone-400 uppercase tracking-wider block">Precio</span>
-                        <span class="text-xl font-black text-cyan-400 font-mono">S/ ${parseFloat(servicio.precio).toFixed(2)}</span>
+                        <span class="text-xl font-black text-cyan-400 font-mono">${ui.soles(servicio.precio)}</span>
                     </div>
                     <a href="/pages/cliente/reservas.html" class="px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-stone-950 font-black text-xs uppercase tracking-wider transition">
                         Reservar Turno
@@ -89,18 +79,21 @@ async function cargarCatalogoServicios() {
             `;
             grilla.appendChild(tarjeta);
         });
-    } catch (e) {}
+    } catch (e) {
+        grilla.innerHTML = `<div class="col-span-full text-center py-8 text-stone-500 text-xs">Error al sincronizar tarifas con la base de datos.</div>`;
+    }
 }
 
 async function cargarBarberos() {
-    try {
-        const respuesta = await fetch('/api/barberos');
-        if (!respuesta.ok) return;
-        const datos = await respuesta.json();
-        if (!datos.exitoso || !datos.datos || datos.datos.length === 0) return;
+    const grilla = document.getElementById('grilla-barberos');
+    if (!grilla) return;
 
-        const grilla = document.getElementById('grilla-barberos');
-        if (!grilla) return;
+    try {
+        const datos = await api.get('/api/barberos');
+        if (!datos || !datos.exitoso || !datos.datos || datos.datos.length === 0) {
+            grilla.innerHTML = `<div class="col-span-full text-center py-8 text-stone-500 text-xs">No hay barberos asignados en este momento.</div>`;
+            return;
+        }
 
         grilla.innerHTML = '';
         datos.datos.forEach(barbero => {
@@ -126,7 +119,9 @@ async function cargarBarberos() {
             `;
             grilla.appendChild(tarjeta);
         });
-    } catch (e) {}
+    } catch (e) {
+        grilla.innerHTML = `<div class="col-span-full text-center py-8 text-stone-500 text-xs">No se pudo cargar el equipo de barberos.</div>`;
+    }
 }
 
 function cambiarVistaUbicacion(vista) {
@@ -157,6 +152,7 @@ function cambiarVistaUbicacion(vista) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    iniciarCabeceraSesion();
     cargarCatalogoServicios();
     cargarBarberos();
 });
