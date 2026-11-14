@@ -261,18 +261,20 @@ async function cargarUsuarios() {
 async function cargarBarberos() {
     try {
         const respuesta = await fetch(`${API_URL}/barberos`);
-        if (!respuesta.ok) return;
+        if (!respuesta.ok) {
+            estado.barberos = [];
+            poblarSelectorBarberos();
+            return;
+        }
         const resultado = await respuesta.json();
         if (resultado.exitoso && Array.isArray(resultado.datos)) {
             estado.barberos = resultado.datos;
-            poblarSelectorBarberos();
+        } else {
+            estado.barberos = [];
         }
+        poblarSelectorBarberos();
     } catch (e) {
-        estado.barberos = [
-            { idBarbero: 1, nombre: 'Carlos', apellido: 'Mendoza', disponible: true },
-            { idBarbero: 2, nombre: 'Roberto', apellido: 'Salazar', disponible: true },
-            { idBarbero: 3, nombre: 'Alejandro', apellido: 'Suárez', disponible: true }
-        ];
+        estado.barberos = [];
         poblarSelectorBarberos();
     }
 }
@@ -325,8 +327,8 @@ function actualizarKPIs() {
         .reduce((acc, c) => acc + parseFloat(c.montoTotal || 0), 0);
 
     const totalCitas = estado.citas.length;
-    const totalClientes = estado.usuarios.filter(u => u.rol === 'CLIENTE').length || 28;
-    const totalBarberos = estado.barberos.length || 3;
+    const totalClientes = estado.usuarios.filter(u => u.rol === 'CLIENTE').length;
+    const totalBarberos = estado.barberos.length;
 
     if (elIngresos) elIngresos.textContent = `S/ ${totalIngresos.toFixed(2)}`;
     if (elCitasTotal) elCitasTotal.textContent = totalCitas;
