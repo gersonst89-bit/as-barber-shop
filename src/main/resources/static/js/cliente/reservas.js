@@ -818,6 +818,7 @@ async function enviarReservaCita() {
         mostrarNotificacion(e.message || 'Error al procesar reserva.', 'error');
         if (btnConfirmar) {
             btnConfirmar.disabled = false;
+            btnConfirmar.innerHTML = '<span id="btn-texto-confirmar"></span>';
             actualizarBotonConfirmar();
         }
     }
