@@ -177,7 +177,7 @@
     <main class="flex-1">
       <section
         id="inicio"
-        class="relative w-full overflow-hidden bg-[#0a0908] border-b border-stone-800/80"
+        class="relative w-full overflow-hidden bg-[#0a0908] border-b border-stone-800/80 min-h-[calc(100vh-73px)] flex flex-col justify-between"
       >
         <div class="absolute inset-0 z-0 w-full h-full">
           <img
@@ -195,7 +195,7 @@
         </div>
 
         <div
-          class="relative z-10 max-w-7xl mx-auto min-h-[520px] lg:min-h-[580px] flex items-center px-4 sm:px-8 pt-8 sm:pt-10 pb-12 sm:pb-16"
+          class="relative z-10 max-w-7xl mx-auto w-full my-auto flex items-center px-4 sm:px-8 py-8 sm:py-12"
         >
           <div class="max-w-2xl space-y-6">
             <div
@@ -271,6 +271,18 @@
               </div>
             </div>
           </div>
+        </div>
+
+        <div class="relative z-10 pb-6 text-center">
+          <a
+            href="#servicios"
+            class="inline-flex flex-col items-center gap-1.5 text-stone-400 hover:text-cyan-400 transition group"
+          >
+            <span class="text-[10px] font-bold tracking-widest uppercase text-stone-400 group-hover:text-cyan-400">Ver Catálogo de Servicios</span>
+            <svg class="w-4 h-4 text-cyan-400 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+            </svg>
+          </a>
         </div>
       </section>
 
