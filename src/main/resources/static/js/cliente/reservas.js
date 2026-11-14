@@ -207,24 +207,13 @@ async function cargarCatalogoServicios() {
         if (resultado.exitoso && Array.isArray(resultado.datos) && resultado.datos.length > 0) {
             estado.servicios = resultado.datos.filter(s => s.activo);
         } else {
-            estado.servicios = fallbackServicios();
+            estado.servicios = [];
         }
     } catch (e) {
-        estado.servicios = fallbackServicios();
+        estado.servicios = [];
     }
 
     renderizarCatalogoServicios();
-}
-
-function fallbackServicios() {
-    return [
-        { idServicio: 1, nombre: 'Corte Clásico de Autor', precio: 45.00, duracionMinutos: 45, descripcion: 'Asesoría de imagen, corte a tijera, navaja y toalla caliente.', activo: true },
-        { idServicio: 2, nombre: 'Ritual de Barba Tradicional', precio: 35.00, duracionMinutos: 35, descripcion: 'Toallas calientes, aceites balsámicos y afeitado tradicional a navaja.', activo: true },
-        { idServicio: 3, nombre: 'Combo A&S Signature (Corte + Barba)', precio: 70.00, duracionMinutos: 75, descripcion: 'Experiencia completa: corte a tijera, perfilado de barba y toalla perfumada.', activo: true },
-        { idServicio: 4, nombre: 'Corte Fade / Degradado Moderno', precio: 50.00, duracionMinutos: 50, descripcion: 'Skin fade, taper o mid fade con degradado milimétrico y peinado.', activo: true },
-        { idServicio: 5, nombre: 'Ritual de Toalla Caliente & Limpieza', precio: 40.00, duracionMinutos: 30, descripcion: 'Exfoliación facial dérmica, toalla al vapor y tónico refrescante.', activo: true },
-        { idServicio: 6, nombre: 'Corte Junior / Padre e Hijo', precio: 40.00, duracionMinutos: 40, descripcion: 'Atención paciente y dedicada para los más jóvenes de la casa.', activo: true }
-    ];
 }
 
 function renderizarCatalogoServicios() {
@@ -232,6 +221,16 @@ function renderizarCatalogoServicios() {
     if (!contenedor) return;
 
     contenedor.innerHTML = '';
+
+    if (estado.servicios.length === 0) {
+        contenedor.innerHTML = `
+            <div class="col-span-full text-center py-12 text-stone-500 text-xs">
+                No hay servicios disponibles para reservar en este momento.
+            </div>
+        `;
+        actualizarBarraResumenServicios();
+        return;
+    }
 
     estado.servicios.forEach(servicio => {
         const estaSeleccionado = estado.serviciosSeleccionados.some(s => s.idServicio === servicio.idServicio);
@@ -321,21 +320,13 @@ async function cargarCatalogoBarberos() {
         if (resultado.exitoso && Array.isArray(resultado.datos) && resultado.datos.length > 0) {
             estado.barberos = resultado.datos.filter(b => b.disponible !== false);
         } else {
-            estado.barberos = fallbackBarberos();
+            estado.barberos = [];
         }
     } catch (e) {
-        estado.barberos = fallbackBarberos();
+        estado.barberos = [];
     }
 
     renderizarCatalogoBarberos();
-}
-
-function fallbackBarberos() {
-    return [
-        { idBarbero: 1, nombre: 'Carlos', apellido: 'Mendoza', especialidad: 'Master Barber · Fade & Tijera', foto: '/img/avatar-barbero-1.jpg' },
-        { idBarbero: 2, nombre: 'Roberto', apellido: 'Salazar', especialidad: 'Especialista en Barba Tradicional', foto: '/img/avatar-barbero-2.jpg' },
-        { idBarbero: 3, nombre: 'Alejandro', apellido: 'Suárez', especialidad: 'Estilista Pompadour & Clásico', foto: null }
-    ];
 }
 
 function renderizarCatalogoBarberos() {
@@ -343,6 +334,15 @@ function renderizarCatalogoBarberos() {
     if (!contenedor) return;
 
     contenedor.innerHTML = '';
+
+    if (estado.barberos.length === 0) {
+        contenedor.innerHTML = `
+            <div class="col-span-full text-center py-12 text-stone-500 text-xs">
+                No hay barberos disponibles en este momento.
+            </div>
+        `;
+        return;
+    }
 
     const tarjetaCualquiera = document.createElement('div');
     const esCualquiera = estado.barberoSeleccionado && estado.barberoSeleccionado.idBarbero === null;
