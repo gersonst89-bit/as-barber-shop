@@ -114,12 +114,17 @@ async function iniciarSesion(evento) {
         mostrarMensaje(`¡Bienvenido, ${datosUsuario.nombre}! Redirigiendo...`, 'success');
 
         setTimeout(() => {
+            const params = new URLSearchParams(window.location.search);
+            const redirectUrl = params.get('redirect');
+
             if (datosUsuario.rol === 'ADMIN') {
-                window.location.href = '/pages/admin/usuarios.html';
+                window.location.href = '/pages/admin/dashboard.html';
             } else if (datosUsuario.rol === 'BARBERO') {
                 window.location.href = '/pages/barbero/agenda.html';
+            } else if (redirectUrl) {
+                window.location.href = redirectUrl;
             } else {
-                window.location.href = '/pages/cliente/reservas.html';
+                window.location.href = '/';
             }
         }, 1000);
 
