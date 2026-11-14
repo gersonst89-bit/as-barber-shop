@@ -29,6 +29,19 @@ function iniciarCabeceraSesion() {
 
         if (enlacePanel) enlacePanel.href = rutaPanel;
         if (btnHero) btnHero.href = rutaPanel;
+
+        const btnCtaBanner = document.getElementById('btn-cta-banner');
+        const textoCtaBanner = document.getElementById('texto-cta-banner');
+
+        if (btnCtaBanner) {
+            btnCtaBanner.href = rutaPanel;
+            btnCtaBanner.textContent = usuario.rol === 'CLIENTE' ? 'Reservar mi Turno' : 'Ir a mi Panel';
+        }
+        if (textoCtaBanner) {
+            textoCtaBanner.textContent = usuario.rol === 'CLIENTE'
+                ? 'Elige a tu maestro barbero de confianza y agenda tu atención con confirmación inmediata.'
+                : 'Accede a tus herramientas de gestión y revisa la agenda del día.';
+        }
     }
 
     document.getElementById('btn-cerrar-sesion-cabecera')?.addEventListener('click', () => {
