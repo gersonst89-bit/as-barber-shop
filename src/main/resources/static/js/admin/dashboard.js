@@ -465,24 +465,65 @@ function renderizarTopServicios() {
     const contenedor = document.getElementById('lista-top-servicios');
     if (!contenedor) return;
 
-    const servicios = estado.servicios.length > 0 ? estado.servicios : [
-        { nombre: 'Corte Clásico de Autor', precio: 45.00 },
-        { nombre: 'Combo A&S Signature', precio: 70.00 },
-        { nombre: 'Ritual de Barba', precio: 35.00 }
-    ];
+    const contador = {};
+    estado.citas.forEach(c => {
+        if (Array.isArray(c.detalles)) {
+            c.detalles.forEach(d => {
+                if (d.nombreServicio) {
+                    contador[d.nombreServicio] = (contador[d.nombreServicio] || 0) + 1;
+                }
+            });
+        }
+    });
+
+    let lista = [];
+    if (Object.keys(contador).length > 0) {
+        lista = Object.entries(contador).map(([nombre, cantidad]) => {
+            const servicioObj = estado.servicios.find(s => s.nombre === nombre);
+            return {
+                nombre: nombre,
+                cantidad: cantidad,
+                precio: servicioObj ? servicioObj.precio : 45.00
+            };
+        }).sort((a, b) => b.cantidad - a.cantidad);
+    } else {
+        lista = [
+            { nombre: 'Corte Clásico de Autor', cantidad: 18, precio: 45.00 },
+            { nombre: 'Combo A&S Signature (Corte + Barba)', cantidad: 12, precio: 70.00 },
+            { nombre: 'Ritual de Barba & Toalla Caliente', cantidad: 8, precio: 35.00 },
+            { nombre: 'Corte Fade / Degradado', cantidad: 5, precio: 50.00 }
+        ];
+    }
+
+    const totalCitasServicios = lista.reduce((acc, item) => acc + item.cantidad, 0) || 1;
 
     contenedor.innerHTML = '';
-    servicios.slice(0, 4).forEach((s, idx) => {
+    lista.slice(0, 4).forEach((s, idx) => {
+        const pct = Math.round((s.cantidad / totalCitasServicios) * 100);
+        const colorProgreso = idx === 0 ? 'bg-cyan-400' : idx === 1 ? 'bg-amber-400' : idx === 2 ? 'bg-emerald-400' : 'bg-blue-400';
+        const colorBadge = idx === 0 ? 'bg-cyan-500/15 border-cyan-500/40 text-cyan-400' :
+                           idx === 1 ? 'bg-amber-500/15 border-amber-500/40 text-amber-400' :
+                           idx === 2 ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-400' :
+                           'bg-blue-500/15 border-blue-500/40 text-blue-400';
+
         const fila = document.createElement('div');
-        fila.className = 'flex items-center justify-between text-xs py-2.5 border-b border-stone-800/60 last:border-0';
+        fila.className = 'p-3 rounded-xl bg-[#171513] border border-stone-800/80 space-y-2';
         fila.innerHTML = `
-            <div class="flex items-center gap-2.5 min-w-0">
-                <span class="w-6 h-6 rounded-lg bg-cyan-500/15 border border-cyan-500/30 text-cyan-400 font-mono text-[10px] flex items-center justify-center font-bold shrink-0">
-                    ${idx + 1}
-                </span>
-                <span class="text-stone-200 font-medium truncate">${s.nombre}</span>
+            <div class="flex items-center justify-between text-xs">
+                <div class="flex items-center gap-2.5 min-w-0">
+                    <span class="w-6 h-6 rounded-lg ${colorBadge} border font-mono text-[11px] flex items-center justify-center font-bold shrink-0">
+                        #${idx + 1}
+                    </span>
+                    <span class="text-white font-bold truncate">${s.nombre}</span>
+                </div>
+                <div class="flex items-center gap-3 shrink-0 ml-2">
+                    <span class="text-stone-300 font-mono text-[11px] font-medium">${s.cantidad} reservas (${pct}%)</span>
+                    <span class="font-mono font-bold text-cyan-400 text-xs">S/ ${parseFloat(s.precio).toFixed(2)}</span>
+                </div>
             </div>
-            <span class="font-mono font-bold text-cyan-400 shrink-0 ml-2">S/ ${parseFloat(s.precio).toFixed(2)}</span>
+            <div class="w-full bg-[#1e1c19] rounded-full h-1.5 overflow-hidden">
+                <div class="${colorProgreso} h-1.5 rounded-full transition-all duration-500" style="width: ${pct}%"></div>
+            </div>
         `;
         contenedor.appendChild(fila);
     });
@@ -492,6 +533,12 @@ function renderizarResumenPagos() {
     const elTarjeta = document.getElementById('pago-tarjeta-monto');
     const elYape = document.getElementById('pago-yape-monto');
     const elEfectivo = document.getElementById('pago-efectivo-monto');
+    const barTarjeta = document.getElementById('pago-tarjeta-bar');
+    const barYape = document.getElementById('pago-yape-bar');
+    const barEfectivo = document.getElementById('pago-efectivo-bar');
+    const txtPctTarjeta = document.getElementById('pago-tarjeta-pct');
+    const txtPctYape = document.getElementById('pago-yape-pct');
+    const txtPctEfectivo = document.getElementById('pago-efectivo-pct');
 
     let totalTarjeta = 0;
     let totalYape = 0;
@@ -511,9 +558,27 @@ function renderizarResumenPagos() {
         });
     }
 
+    if (totalTarjeta === 0 && totalYape === 0 && totalEfectivo === 0) {
+        totalTarjeta = 480.00;
+        totalYape = 650.00;
+        totalEfectivo = 320.00;
+    }
+
+    const sumaTotal = totalTarjeta + totalYape + totalEfectivo || 1;
+    const pctTarjeta = Math.round((totalTarjeta / sumaTotal) * 100);
+    const pctYape = Math.round((totalYape / sumaTotal) * 100);
+    const pctEfectivo = Math.round((totalEfectivo / sumaTotal) * 100);
+
     if (elTarjeta) elTarjeta.textContent = `S/ ${totalTarjeta.toFixed(2)}`;
     if (elYape) elYape.textContent = `S/ ${totalYape.toFixed(2)}`;
     if (elEfectivo) elEfectivo.textContent = `S/ ${totalEfectivo.toFixed(2)}`;
+
+    if (barTarjeta) barTarjeta.style.width = `${pctTarjeta}%`;
+    if (barYape) barYape.style.width = `${pctYape}%`;
+    if (barEfectivo) barEfectivo.style.width = `${pctEfectivo}%`;
+    if (txtPctTarjeta) txtPctTarjeta.textContent = `${pctTarjeta}%`;
+    if (txtPctYape) txtPctYape.textContent = `${pctYape}%`;
+    if (txtPctEfectivo) txtPctEfectivo.textContent = `${pctEfectivo}%`;
 }
 
 function renderizarGraficos() {
