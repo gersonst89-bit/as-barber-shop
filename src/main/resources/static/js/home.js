@@ -1,3 +1,5 @@
+let observadorScrollGlobal = null;
+
 function iniciarCabeceraSesion() {
     const token = api.getToken();
     const usuario = api.getUsuario();
@@ -50,6 +52,90 @@ function iniciarCabeceraSesion() {
     });
 }
 
+function iniciarScrollReveal() {
+    observadorScrollGlobal = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.12,
+        rootMargin: '0px 0px -40px 0px'
+    });
+
+    document.querySelectorAll('.scroll-reveal, .scroll-reveal-left, .scroll-reveal-right, .scroll-reveal-zoom').forEach(el => {
+        observadorScrollGlobal.observe(el);
+    });
+}
+
+function observarNuevosScrollReveal(contenedor) {
+    if (!observadorScrollGlobal || !contenedor) return;
+    contenedor.querySelectorAll('.scroll-reveal, .scroll-reveal-left, .scroll-reveal-right, .scroll-reveal-zoom').forEach(el => {
+        observadorScrollGlobal.observe(el);
+    });
+}
+
+function iniciarBarraProgresoScroll() {
+    const barra = document.getElementById('barra-progreso-scroll');
+    const cabecera = document.getElementById('cabecera-principal');
+    if (!barra) return;
+
+    let tick = false;
+    window.addEventListener('scroll', () => {
+        if (!tick) {
+            window.requestAnimationFrame(() => {
+                const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
+                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const porcentaje = height > 0 ? (winScroll / height) * 100 : 0;
+                barra.style.width = `${Math.min(100, Math.max(0, porcentaje))}%`;
+
+                if (cabecera) {
+                    if (winScroll > 30) {
+                        cabecera.classList.add('shadow-xl', 'shadow-black/70', 'border-cyan-500/30');
+                        cabecera.classList.remove('border-cyan-500/20');
+                    } else {
+                        cabecera.classList.remove('shadow-xl', 'shadow-black/70', 'border-cyan-500/30');
+                        cabecera.classList.add('border-cyan-500/20');
+                    }
+                }
+                tick = false;
+            });
+            tick = true;
+        }
+    }, { passive: true });
+}
+
+function iniciarScrollSpy() {
+    const secciones = document.querySelectorAll('main > section[id]');
+    const enlacesNav = document.querySelectorAll('#navegacion-principal a.enlace-nav');
+    if (!secciones.length || !enlacesNav.length) return;
+
+    const spyObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                enlacesNav.forEach(enlace => {
+                    const esActivo = enlace.getAttribute('href') === `#${id}`;
+                    if (esActivo) {
+                        enlace.classList.add('text-cyan-400', 'font-black', 'border-cyan-400');
+                        enlace.classList.remove('text-stone-300', 'border-transparent');
+                    } else {
+                        enlace.classList.remove('text-cyan-400', 'font-black', 'border-cyan-400');
+                        enlace.classList.add('text-stone-300', 'border-transparent');
+                    }
+                });
+            }
+        });
+    }, {
+        rootMargin: '-20% 0px -55% 0px',
+        threshold: 0.1
+    });
+
+    secciones.forEach(sec => spyObserver.observe(sec));
+}
+
 async function cargarCatalogoServicios() {
     const grilla = document.getElementById('grilla-servicios');
     if (!grilla) return;
@@ -62,9 +148,10 @@ async function cargarCatalogoServicios() {
         }
 
         grilla.innerHTML = '';
-        datos.datos.filter(s => s.activo !== false).forEach(servicio => {
+        datos.datos.filter(s => s.activo !== false).forEach((servicio, index) => {
+            const delayClass = `delay-${((index % 3) + 1) * 100}`;
             const tarjeta = document.createElement('div');
-            tarjeta.className = 'bg-[#12100e] border border-stone-800 hover:border-cyan-500/50 rounded-2xl p-6 flex flex-col justify-between transition duration-200 shadow-xl group';
+            tarjeta.className = `scroll-reveal ${delayClass} bg-[#12100e] border border-stone-800 hover:border-cyan-500/50 rounded-2xl p-6 flex flex-col justify-between transition duration-200 shadow-xl group`;
             tarjeta.innerHTML = `
                 <div class="space-y-4">
                     <div class="flex items-center justify-between">
@@ -92,6 +179,7 @@ async function cargarCatalogoServicios() {
             `;
             grilla.appendChild(tarjeta);
         });
+        observarNuevosScrollReveal(grilla);
     } catch (e) {
         grilla.innerHTML = `<div class="col-span-full text-center py-12 text-stone-500 text-xs">Error al sincronizar tarifas con la base de datos.</div>`;
     }
@@ -109,10 +197,11 @@ async function cargarBarberos() {
         }
 
         grilla.innerHTML = '';
-        datos.datos.filter(b => b.disponible !== false).forEach(barbero => {
+        datos.datos.filter(b => b.disponible !== false).forEach((barbero, index) => {
+            const delayClass = `delay-${((index % 3) + 1) * 100}`;
             const iniciales = (barbero.nombre ? barbero.nombre.charAt(0) : 'B') + (barbero.apellido ? barbero.apellido.charAt(0) : '');
             const tarjeta = document.createElement('div');
-            tarjeta.className = 'bg-[#12100e] border border-stone-800 hover:border-cyan-500/40 rounded-2xl p-6 text-center space-y-4 transition duration-200 shadow-xl';
+            tarjeta.className = `scroll-reveal ${delayClass} bg-[#12100e] border border-stone-800 hover:border-cyan-500/40 rounded-2xl p-6 text-center space-y-4 transition duration-200 shadow-xl`;
             tarjeta.innerHTML = `
                 <div class="w-20 h-20 mx-auto rounded-full bg-gradient-to-tr from-cyan-500 to-blue-700 p-0.5 shadow-xl shadow-cyan-950/40">
                     <div class="w-full h-full rounded-full bg-[#171513] flex items-center justify-center text-2xl font-black text-cyan-400">
@@ -132,6 +221,7 @@ async function cargarBarberos() {
             `;
             grilla.appendChild(tarjeta);
         });
+        observarNuevosScrollReveal(grilla);
     } catch (e) {
         grilla.innerHTML = `<div class="col-span-full text-center py-12 text-stone-500 text-xs">No se pudo cargar el equipo de barberos.</div>`;
     }
@@ -166,6 +256,9 @@ function cambiarVistaUbicacion(vista) {
 
 document.addEventListener('DOMContentLoaded', () => {
     iniciarCabeceraSesion();
+    iniciarScrollReveal();
+    iniciarBarraProgresoScroll();
+    iniciarScrollSpy();
     cargarCatalogoServicios();
     cargarBarberos();
 });

@@ -39,7 +39,7 @@ function configurarCabecera() {
 
         const inputCorreoAdmin = document.getElementById('cfg-admin-correo');
         if (inputCorreoAdmin && usuario.email) inputCorreoAdmin.value = usuario.email;
-    } catch (e) {}
+    } catch (e) { }
 
     btnSalir?.addEventListener('click', () => {
         localStorage.removeItem('as_token');
@@ -67,7 +67,7 @@ function cargarConfiguracionGuardada() {
         if (cfg.intervalo) document.getElementById('cfg-intervalo').value = cfg.intervalo;
         if (cfg.tolerancia) document.getElementById('cfg-tolerancia').value = cfg.tolerancia;
         if (cfg.anticipacion) document.getElementById('cfg-anticipacion-cancelacion').value = cfg.anticipacion;
-    } catch (e) {}
+    } catch (e) { }
 }
 
 function configurarFormularios() {
