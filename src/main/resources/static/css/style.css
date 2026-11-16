@@ -82,3 +82,12 @@ input:-webkit-autofill:focus {
 .delay-200 { transition-delay: 200ms; }
 .delay-300 { transition-delay: 300ms; }
 .delay-400 { transition-delay: 400ms; }
+
+.mapa-dark-mode iframe {
+    filter: invert(90%) hue-rotate(180deg) contrast(1.15) brightness(0.92);
+    transition: filter 0.3s ease;
+}
+
+.mapa-dark-mode:hover iframe {
+    filter: invert(90%) hue-rotate(180deg) contrast(1.2) brightness(0.96);
+}
