@@ -13,7 +13,7 @@ tailwind.config = {
             },
             fontFamily: {
                 sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
-                display: ['Anton', 'Bebas Neue', 'sans-serif'],
+                display: ['"Archivo Black"', '"Montserrat"', 'sans-serif'],
                 brand: ['Montserrat', 'Inter', 'sans-serif'],
             }
         }
