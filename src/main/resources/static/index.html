@@ -40,7 +40,7 @@
             <a href="/pages/login.html" id="enlace-iniciar-sesion" class="hidden sm:inline-flex px-3.5 sm:px-4 py-2 rounded-xl border border-stone-700 hover:border-cyan-500 text-stone-200 hover:text-cyan-400 text-xs font-bold transition">
               Iniciar Sesión
             </a>
-            <a href="/pages/registro.html" id="enlace-registrarse" class="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-stone-950 font-black px-3.5 sm:px-5 py-2 rounded-xl text-xs uppercase tracking-wider shadow-md shadow-cyan-950/50 transition transform active:scale-95">
+            <a href="/pages/registro.html" id="enlace-registrarse" class="hidden sm:inline-flex bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-stone-950 font-black px-3.5 sm:px-5 py-2 rounded-xl text-xs uppercase tracking-wider shadow-md shadow-cyan-950/50 transition transform active:scale-95">
               Registrarme
             </a>
           </div>
@@ -58,10 +58,10 @@
                 U
               </div>
             </div>
-            <a href="/pages/cliente/reservas.html" id="enlace-panel-usuario" class="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-stone-950 font-black px-3 sm:px-3.5 py-1.5 rounded-xl text-xs uppercase tracking-wider transition">
+            <a href="/pages/cliente/reservas.html" id="enlace-panel-usuario" class="hidden sm:inline-flex bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-stone-950 font-black px-3 sm:px-3.5 py-1.5 rounded-xl text-xs uppercase tracking-wider transition">
               Mi Panel
             </a>
-            <button type="button" id="btn-cerrar-sesion-cabecera" class="p-2 rounded-xl border border-red-700/40 text-red-400 hover:bg-red-950/40 text-xs transition cursor-pointer" title="Cerrar sesión">
+            <button type="button" id="btn-cerrar-sesion-cabecera" class="hidden sm:inline-flex p-2 rounded-xl border border-red-700/40 text-red-400 hover:bg-red-950/40 text-xs transition cursor-pointer" title="Cerrar sesión">
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path> </svg>
             </button>
           </div>
@@ -76,66 +76,72 @@
         </div>
       </div>
       <div id="barra-progreso-scroll" class="absolute bottom-0 left-0 h-[2.5px] bg-gradient-to-r from-cyan-400 via-sky-400 to-amber-400 w-0 transition-[width] duration-75 ease-out shadow-sm shadow-cyan-400/50"></div>
-      <div id="menu-movil-desplegable" class="hidden lg:hidden border-t border-stone-800/90 bg-[#0d0c0a]/98 backdrop-blur-2xl px-4 py-5 space-y-4 shadow-2xl transition-all duration-300">
-        <nav class="flex flex-col space-y-1.5 text-xs sm:text-sm font-bold uppercase tracking-wider text-stone-300">
-          <a href="#inicio" class="enlace-nav-movil flex items-center justify-between py-2.5 px-3 rounded-xl hover:bg-stone-900/80 hover:text-cyan-400 transition">
-            <span>Inicio</span>
-            <span class="text-xs text-stone-500">↗</span>
-          </a>
-          <a href="#servicios" class="enlace-nav-movil flex items-center justify-between py-2.5 px-3 rounded-xl hover:bg-stone-900/80 hover:text-cyan-400 transition">
-            <span>Servicios & Tarifas</span>
-            <span class="text-xs text-stone-500">↗</span>
-          </a>
-          <a href="#sede" class="enlace-nav-movil flex items-center justify-between py-2.5 px-3 rounded-xl hover:bg-stone-900/80 hover:text-cyan-400 transition">
-            <span>Nuestra Sede</span>
-            <span class="text-xs text-stone-500">↗</span>
-          </a>
-          <a href="#barberos" class="enlace-nav-movil flex items-center justify-between py-2.5 px-3 rounded-xl hover:bg-stone-900/80 hover:text-cyan-400 transition">
-            <span>Maestros Barberos</span>
-            <span class="text-xs text-stone-500">↗</span>
-          </a>
-          <a href="#experiencia" class="enlace-nav-movil flex items-center justify-between py-2.5 px-3 rounded-xl hover:bg-stone-900/80 hover:text-cyan-400 transition">
-            <span>Experiencia A&S</span>
-            <span class="text-xs text-stone-500">↗</span>
-          </a>
-        </nav>
-        <div id="acciones-menu-movil" class="pt-3 border-t border-stone-800/80 flex flex-col gap-2">
-          <a href="/pages/login.html" class="w-full py-2.5 text-center rounded-xl border border-stone-700 hover:border-cyan-500 text-stone-200 text-xs font-bold transition">
+    </header>
+    <div id="menu-movil-desplegable" class="hidden lg:hidden fixed inset-x-0 top-[60px] sm:top-[68px] bottom-0 z-50 bg-[#0a0908]/98 backdrop-blur-2xl px-6 py-6 flex flex-col justify-between overflow-y-auto border-t border-stone-800/80">
+      <nav class="flex flex-col space-y-1 text-sm font-bold uppercase tracking-wider text-stone-300">
+        <a href="#inicio" class="enlace-nav-movil flex items-center justify-between py-3.5 px-3 rounded-xl hover:bg-stone-900/80 hover:text-cyan-400 transition border-b border-stone-800/40">
+          <span>Inicio</span>
+          <span class="text-xs text-stone-500">↗</span>
+        </a>
+        <a href="#servicios" class="enlace-nav-movil flex items-center justify-between py-3.5 px-3 rounded-xl hover:bg-stone-900/80 hover:text-cyan-400 transition border-b border-stone-800/40">
+          <span>Servicios & Tarifas</span>
+          <span class="text-xs text-stone-500">↗</span>
+        </a>
+        <a href="#sede" class="enlace-nav-movil flex items-center justify-between py-3.5 px-3 rounded-xl hover:bg-stone-900/80 hover:text-cyan-400 transition border-b border-stone-800/40">
+          <span>Nuestra Sede</span>
+          <span class="text-xs text-stone-500">↗</span>
+        </a>
+        <a href="#barberos" class="enlace-nav-movil flex items-center justify-between py-3.5 px-3 rounded-xl hover:bg-stone-900/80 hover:text-cyan-400 transition border-b border-stone-800/40">
+          <span>Maestros Barberos</span>
+          <span class="text-xs text-stone-500">↗</span>
+        </a>
+        <a href="#experiencia" class="enlace-nav-movil flex items-center justify-between py-3.5 px-3 rounded-xl hover:bg-stone-900/80 hover:text-cyan-400 transition border-b border-stone-800/40">
+          <span>Experiencia A&S</span>
+          <span class="text-xs text-stone-500">↗</span>
+        </a>
+      </nav>
+      <div class="mt-auto pt-6 space-y-4">
+        <div id="acciones-menu-movil" class="flex flex-col gap-2.5">
+          <a href="/pages/login.html" class="w-full py-3 text-center rounded-xl border border-stone-700 hover:border-cyan-500 text-stone-200 text-xs font-bold uppercase tracking-wider transition bg-[#141210]">
             Iniciar Sesión
           </a>
-          <a href="/pages/registro.html" class="w-full py-2.5 text-center bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 text-stone-950 font-black text-xs uppercase tracking-wider rounded-xl shadow-md transition">
+          <a href="/pages/registro.html" class="w-full py-3 text-center bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 text-stone-950 font-black text-xs uppercase tracking-wider rounded-xl shadow-lg shadow-cyan-950/50 transition">
             Registrarme
           </a>
         </div>
-        <div id="usuario-menu-movil" class="hidden pt-3 border-t border-stone-800/80 flex-col gap-2.5">
-          <div class="flex items-center gap-3 px-2 py-1">
-            <div id="avatar-usuario-movil" class="w-9 h-9 rounded-full bg-gradient-to-br from-cyan-500 to-blue-700 text-black font-extrabold flex items-center justify-center text-xs shadow-md">
+        <div id="usuario-menu-movil" class="hidden flex-col gap-3">
+          <div class="flex items-center gap-3 p-3 rounded-xl bg-stone-900/70 border border-stone-800">
+            <div id="avatar-usuario-movil" class="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500 to-blue-700 text-black font-extrabold flex items-center justify-center text-xs shadow-md">
               U
             </div>
             <div>
-              <p id="nombre-usuario-movil" class="text-xs font-bold text-stone-200">Usuario</p>
+              <p id="nombre-usuario-movil" class="text-xs font-bold text-stone-200 truncate max-w-[200px]">Usuario</p>
               <p id="rol-usuario-movil" class="text-[10px] text-cyan-400 font-bold uppercase tracking-wider">Cliente</p>
             </div>
           </div>
-          <a href="/pages/cliente/reservas.html" id="enlace-panel-usuario-movil" class="w-full py-2.5 text-center bg-gradient-to-r from-cyan-500 to-blue-600 text-stone-950 font-black text-xs uppercase tracking-wider rounded-xl transition">
+          <a href="/pages/cliente/reservas.html" id="enlace-panel-usuario-movil" class="w-full py-3 text-center bg-gradient-to-r from-cyan-500 to-blue-600 text-stone-950 font-black text-xs uppercase tracking-wider rounded-xl transition">
             Ir a Mi Panel
           </a>
-          <button type="button" id="btn-cerrar-sesion-movil" class="w-full py-2 text-center rounded-xl border border-red-700/40 text-red-400 hover:bg-red-950/40 text-xs font-semibold transition cursor-pointer">
+          <button type="button" id="btn-cerrar-sesion-movil" class="w-full py-2.5 text-center rounded-xl border border-red-700/40 text-red-400 hover:bg-red-950/40 text-xs font-semibold transition cursor-pointer">
             Cerrar Sesión
           </button>
         </div>
+        <div class="text-center text-[11px] text-stone-500 pt-2 border-t border-stone-800/60">
+          Av. José Pardo 620, Miraflores · Sótano Tda. 18
+        </div>
       </div>
+    </div>
     </header>
     <main class="flex-1">
-      <section id="inicio" class="relative w-full overflow-hidden bg-[#0a0908] border-b border-stone-800/80 min-h-[calc(100vh-73px)] flex flex-col justify-between">
-        <div class="absolute inset-0 z-0 w-full h-full">
-          <img src="/img/as-poster-bn.jpg" alt="A&S Barber Shop Miraflores Poster B&N" class="w-full h-full object-cover filter brightness-[0.70] sm:brightness-[0.90] contrast-[1.15]" style="object-position: right 3%" />
-          <div class="absolute inset-0 bg-gradient-to-b sm:bg-gradient-to-r from-[#0a0908] via-[#0a0908]/95 sm:via-[#0a0908] sm:via-60% to-transparent w-full lg:w-[75%]"></div>
-          <div class="absolute inset-0 bg-gradient-to-t from-[#0a0908] via-[#0a0908]/50 to-transparent"></div>
+      <section id="inicio" class="relative w-full overflow-hidden bg-[#0a0908] border-b border-stone-800/80 min-h-[calc(100vh-60px)] sm:min-h-[calc(100vh-68px)] flex flex-col justify-between">
+        <div class="absolute inset-0 z-0 w-full h-full pointer-events-none">
+          <img src="/img/as-poster-bn.jpg" alt="A&S Barber Shop Miraflores Poster B&N" class="w-full h-full object-cover object-[75%_center] sm:object-[right_3%] filter brightness-[0.80] sm:brightness-[0.90] contrast-[1.15] opacity-40 sm:opacity-100" />
+          <div class="absolute inset-0 bg-gradient-to-t from-[#0a0908] via-[#0a0908]/85 to-[#0a0908]/75 sm:bg-gradient-to-r sm:from-[#0a0908] sm:via-[#0a0908] sm:via-60% sm:to-transparent w-full lg:w-[75%]"></div>
+          <div class="absolute inset-0 bg-gradient-to-t from-[#0a0908] via-transparent to-transparent"></div>
         </div>
-        <div class="relative z-10 max-w-7xl mx-auto w-full my-auto flex items-center px-4 sm:px-8 py-8 sm:py-12">
-          <div class="max-w-3xl space-y-6 scroll-reveal">
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/15 border border-cyan-500/30 text-cyan-400 text-xs font-bold tracking-widest uppercase">
+        <div class="relative z-10 max-w-7xl mx-auto w-full my-auto flex items-center px-4 sm:px-8 py-10 sm:py-16">
+          <div class="max-w-3xl space-y-5 sm:space-y-6 scroll-reveal">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/15 border border-cyan-500/30 text-cyan-400 text-[11px] sm:text-xs font-bold tracking-widest uppercase">
               <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
               <span>SEDE MIRAFLORES · GALERÍA PARDO</span>
             </div>
@@ -505,7 +511,7 @@
         </p>
       </div>
     </footer>
-    <a href="https://wa.me/51986717861?text=Hola%20A%26S%20Barber%20Shop%2C%20quisiera%20consultar%20sobre%20una%20atenci%C3%B3n%20en%20la%20sede%20de%20Miraflores." target="_blank" rel="noopener noreferrer" id="btn-flotante-whatsapp" class="fixed bottom-6 right-6 z-50 w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#25D366] hover:bg-[#20ba5a] text-white flex items-center justify-center shadow-2xl shadow-black/80 hover:scale-110 active:scale-95 transition-all duration-300 group" title="Chatear por WhatsApp">
+    <a href="https://wa.me/51986717861?text=Hola%20A%26S%20Barber%20Shop%2C%20quisiera%20consultar%20sobre%20una%20atenci%C3%B3n%20en%20la%20sede%20de%20Miraflores." target="_blank" rel="noopener noreferrer" id="btn-flotante-whatsapp" class="fixed bottom-6 right-6 z-40 w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#25D366] hover:bg-[#20ba5a] text-white flex items-center justify-center shadow-2xl shadow-black/80 hover:scale-110 active:scale-95 transition-all duration-300 group" title="Chatear por WhatsApp">
       <span class="absolute right-full mr-3 px-3 py-1.5 rounded-xl bg-[#141210] border border-stone-800 text-stone-200 text-xs font-semibold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none shadow-2xl hidden sm:block">
         ¿Tienes dudas? Escríbenos
       </span>

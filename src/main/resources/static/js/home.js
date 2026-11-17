@@ -98,25 +98,39 @@ function iniciarMenuMovil() {
   const iconoCerrar = document.getElementById("icono-menu-cerrar");
   if (!btn || !menu) return;
 
+  function abrirMenu() {
+    menu.classList.remove("hidden");
+    iconoAbrir?.classList.add("hidden");
+    iconoCerrar?.classList.remove("hidden");
+    document.body.classList.add("overflow-hidden");
+  }
+
+  function cerrarMenu() {
+    menu.classList.add("hidden");
+    iconoAbrir?.classList.remove("hidden");
+    iconoCerrar?.classList.add("hidden");
+    document.body.classList.remove("overflow-hidden");
+  }
+
   btn.addEventListener("click", () => {
     const estaAbierto = !menu.classList.contains("hidden");
     if (estaAbierto) {
-      menu.classList.add("hidden");
-      iconoAbrir?.classList.remove("hidden");
-      iconoCerrar?.classList.add("hidden");
+      cerrarMenu();
     } else {
-      menu.classList.remove("hidden");
-      iconoAbrir?.classList.add("hidden");
-      iconoCerrar?.classList.remove("hidden");
+      abrirMenu();
     }
   });
 
   menu.querySelectorAll(".enlace-nav-movil").forEach((enlace) => {
     enlace.addEventListener("click", () => {
-      menu.classList.add("hidden");
-      iconoAbrir?.classList.remove("hidden");
-      iconoCerrar?.classList.add("hidden");
+      cerrarMenu();
     });
+  });
+
+  window.addEventListener("resize", () => {
+    if (window.innerWidth >= 1024 && !menu.classList.contains("hidden")) {
+      cerrarMenu();
+    }
   });
 }
 
