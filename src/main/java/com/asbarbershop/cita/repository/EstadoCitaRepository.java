@@ -9,4 +9,3 @@ public interface EstadoCitaRepository extends JpaRepository<EstadoCita, Integer>
 
     Optional<EstadoCita> findByNombre(String nombre);
 }
-

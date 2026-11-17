@@ -8,9 +8,8 @@ import java.util.List;
 
 public interface DetalleCitaRepository extends JpaRepository<DetalleCita, Integer> {
 
-    @EntityGraph(attributePaths = {"servicio"})
+    @EntityGraph(attributePaths = { "servicio" })
     List<DetalleCita> findByCitaIdCita(Integer idCita);
 
     void deleteByCitaIdCita(Integer idCita);
 }
-

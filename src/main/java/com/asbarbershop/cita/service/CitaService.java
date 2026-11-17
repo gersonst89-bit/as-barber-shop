@@ -62,13 +62,16 @@ public class CitaService {
         Cliente cliente;
         if ("CLIENTE".equalsIgnoreCase(usuarioCreador.getRol().getNombre())) {
             cliente = clienteRepository.findByUsuarioEmail(emailUsuario)
-                    .orElseThrow(() -> new ResourceNotFoundException("Perfil de cliente no encontrado para: " + emailUsuario));
+                    .orElseThrow(() -> new ResourceNotFoundException(
+                            "Perfil de cliente no encontrado para: " + emailUsuario));
         } else {
             if (request.getIdCliente() == null) {
-                throw new IllegalArgumentException("El ID del cliente es obligatorio para reservas realizadas por personal.");
+                throw new IllegalArgumentException(
+                        "El ID del cliente es obligatorio para reservas realizadas por personal.");
             }
             cliente = clienteRepository.findById(request.getIdCliente())
-                    .orElseThrow(() -> new ResourceNotFoundException("Cliente no encontrado con ID: " + request.getIdCliente()));
+                    .orElseThrow(() -> new ResourceNotFoundException(
+                            "Cliente no encontrado con ID: " + request.getIdCliente()));
         }
 
         if (!Boolean.TRUE.equals(cliente.getUsuario().getActivo())) {
@@ -77,7 +80,8 @@ public class CitaService {
 
         // Validar Barbero
         Barbero barbero = barberoRepository.findById(request.getIdBarbero())
-                .orElseThrow(() -> new ResourceNotFoundException("Barbero no encontrado con ID: " + request.getIdBarbero()));
+                .orElseThrow(
+                        () -> new ResourceNotFoundException("Barbero no encontrado con ID: " + request.getIdBarbero()));
 
         if (!Boolean.TRUE.equals(barbero.getDisponible()) || !Boolean.TRUE.equals(barbero.getUsuario().getActivo())) {
             throw new IllegalArgumentException("El barbero seleccionado no se encuentra disponible o activo.");
@@ -121,7 +125,8 @@ public class CitaService {
         if (request.getHoraInicio().isBefore(horarioLaboral.getHoraInicio())
                 || horaFin.isAfter(horarioLaboral.getHoraFin())) {
             throw new IllegalArgumentException("El horario solicitado (" + request.getHoraInicio() + " - " + horaFin
-                    + ") está fuera de la jornada del barbero (" + horarioLaboral.getHoraInicio() + " - " + horarioLaboral.getHoraFin() + ").");
+                    + ") está fuera de la jornada del barbero (" + horarioLaboral.getHoraInicio() + " - "
+                    + horarioLaboral.getHoraFin() + ").");
         }
 
         // Validar solapamiento de citas
@@ -140,7 +145,8 @@ public class CitaService {
         Promocion promocion = null;
 
         if (request.getCodigoPromocion() != null && !request.getCodigoPromocion().trim().isEmpty()) {
-            ValidarPromocionResponse promoResp = promocionService.validarPromocion(request.getCodigoPromocion(), subtotal);
+            ValidarPromocionResponse promoResp = promocionService.validarPromocion(request.getCodigoPromocion(),
+                    subtotal);
             if (!promoResp.isValida()) {
                 throw new IllegalArgumentException(promoResp.getMensaje());
             }
@@ -275,10 +281,13 @@ public class CitaService {
         }
 
         Barbero barberoDestino = cita.getBarbero();
-        if (request.getNuevoIdBarbero() != null && !request.getNuevoIdBarbero().equals(cita.getBarbero().getIdBarbero())) {
+        if (request.getNuevoIdBarbero() != null
+                && !request.getNuevoIdBarbero().equals(cita.getBarbero().getIdBarbero())) {
             barberoDestino = barberoRepository.findById(request.getNuevoIdBarbero())
-                    .orElseThrow(() -> new ResourceNotFoundException("Barbero no encontrado con ID: " + request.getNuevoIdBarbero()));
-            if (!Boolean.TRUE.equals(barberoDestino.getDisponible()) || !Boolean.TRUE.equals(barberoDestino.getUsuario().getActivo())) {
+                    .orElseThrow(() -> new ResourceNotFoundException(
+                            "Barbero no encontrado con ID: " + request.getNuevoIdBarbero()));
+            if (!Boolean.TRUE.equals(barberoDestino.getDisponible())
+                    || !Boolean.TRUE.equals(barberoDestino.getUsuario().getActivo())) {
                 throw new IllegalArgumentException("El barbero seleccionado no se encuentra disponible.");
             }
         }
@@ -300,7 +309,8 @@ public class CitaService {
         byte diaSemana = (byte) request.getNuevaFecha().getDayOfWeek().getValue();
         HorarioBarbero horarioLaboral = horarioBarberoRepository
                 .findByBarberoIdBarberoAndDiaSemanaAndActivoTrue(barberoDestino.getIdBarbero(), diaSemana)
-                .orElseThrow(() -> new IllegalArgumentException("El barbero no atiende los días " + request.getNuevaFecha().getDayOfWeek() + "."));
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "El barbero no atiende los días " + request.getNuevaFecha().getDayOfWeek() + "."));
 
         if (request.getNuevaHoraInicio().isBefore(horarioLaboral.getHoraInicio())
                 || nuevaHoraFin.isAfter(horarioLaboral.getHoraFin())) {
@@ -309,7 +319,8 @@ public class CitaService {
 
         // Validar solapamiento (excluyendo la cita actual)
         List<Cita> conflictos = citaRepository.findCitasSolapadas(
-                barberoDestino.getIdBarbero(), request.getNuevaFecha(), request.getNuevaHoraInicio(), nuevaHoraFin, cita.getIdCita());
+                barberoDestino.getIdBarbero(), request.getNuevaFecha(), request.getNuevaHoraInicio(), nuevaHoraFin,
+                cita.getIdCita());
         if (!conflictos.isEmpty()) {
             throw new IllegalStateException("El barbero ya tiene una cita programada en ese nuevo horario.");
         }
@@ -365,7 +376,8 @@ public class CitaService {
         }
 
         EstadoCita nuevoEstado = estadoCitaRepository.findByNombre(request.getNuevoEstado().toUpperCase())
-                .orElseThrow(() -> new IllegalArgumentException("El estado '" + request.getNuevoEstado() + "' no es válido."));
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "El estado '" + request.getNuevoEstado() + "' no es válido."));
 
         Usuario usuarioCambio = usuarioRepository.findByEmail(emailUsuario)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado: " + emailUsuario));
@@ -380,7 +392,8 @@ public class CitaService {
         historial.setHoraFinNueva(cita.getHoraFin());
         historial.setBarberoNuevo(cita.getBarbero());
         historial.setUsuarioCambio(usuarioCambio);
-        historial.setObservacion(request.getObservacion() != null ? request.getObservacion() : "Cambio de estado a " + nuevoEstado.getNombre());
+        historial.setObservacion(request.getObservacion() != null ? request.getObservacion()
+                : "Cambio de estado a " + nuevoEstado.getNombre());
 
         historialCitaRepository.save(historial);
 
@@ -469,32 +482,35 @@ public class CitaService {
                 .horaInicioNueva(h.getHoraInicioNueva())
                 .horaFinNueva(h.getHoraFinNueva())
                 .barberoAnterior(h.getBarberoAnterior() != null
-                        ? h.getBarberoAnterior().getUsuario().getNombre() + " " + h.getBarberoAnterior().getUsuario().getApellido()
+                        ? h.getBarberoAnterior().getUsuario().getNombre() + " "
+                                + h.getBarberoAnterior().getUsuario().getApellido()
                         : null)
                 .barberoNuevo(h.getBarberoNuevo() != null
-                        ? h.getBarberoNuevo().getUsuario().getNombre() + " " + h.getBarberoNuevo().getUsuario().getApellido()
+                        ? h.getBarberoNuevo().getUsuario().getNombre() + " "
+                                + h.getBarberoNuevo().getUsuario().getApellido()
                         : null)
                 .usuarioCambio(h.getUsuarioCambio().getNombre() + " " + h.getUsuarioCambio().getApellido())
                 .observacion(h.getObservacion())
                 .fechaCambio(h.getFechaCambio())
-                .build()
-        ).collect(Collectors.toList());
+                .build()).collect(Collectors.toList());
     }
 
     public CitaResponse mapToResponse(Cita c, List<DetalleCita> detalles) {
-        List<DetalleCitaResponse> serviciosResp = (detalles != null) ? detalles.stream().map(d ->
-                DetalleCitaResponse.builder()
+        List<DetalleCitaResponse> serviciosResp = (detalles != null) ? detalles.stream()
+                .map(d -> DetalleCitaResponse.builder()
                         .idDetalle(d.getIdDetalle())
                         .idServicio(d.getServicio().getIdServicio())
                         .nombreServicio(d.getNombreServicio())
                         .precioUnitario(d.getPrecioUnitario())
                         .cantidad(d.getCantidad())
                         .duracionMinutos(d.getDuracionMinutos())
-                        .build()
-        ).collect(Collectors.toList()) : List.of();
+                        .build())
+                .collect(Collectors.toList()) : List.of();
 
-        String nombreCliente = c.getCliente().getUsuario().getNombre() + " " + c.getCliente().getUsuario().getApellido();
-        String nombreBarbero = c.getBarbero().getUsuario().getNombre() + " " + c.getBarbero().getUsuario().getApellido();
+        String nombreCliente = c.getCliente().getUsuario().getNombre() + " "
+                + c.getCliente().getUsuario().getApellido();
+        String nombreBarbero = c.getBarbero().getUsuario().getNombre() + " "
+                + c.getBarbero().getUsuario().getApellido();
         String creador = c.getCreadoPor().getNombre() + " " + c.getCreadoPor().getApellido();
 
         return CitaResponse.builder()
@@ -523,4 +539,3 @@ public class CitaService {
                 .build();
     }
 }
-

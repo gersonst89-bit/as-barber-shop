@@ -28,4 +28,3 @@ public class BarberoController {
         return ResponseEntity.ok(ApiResponse.success("Barbero encontrado.", response));
     }
 }
-

@@ -16,14 +16,14 @@
     <link rel="stylesheet" href="/css/style.css" />
   </head>
   <body class="min-h-screen bg-[#0a0908] text-stone-100 flex flex-col font-sans selection:bg-cyan-500 selection:text-black">
-    <header id="cabecera-principal" class="w-full bg-[#0d0c0a]/95 border-b border-cyan-500/20 backdrop-blur-md sticky top-0 z-40 px-4 sm:px-8 py-3.5 sm:py-4 transition duration-200">
-      <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
-        <div class="flex items-center min-w-[200px] lg:min-w-[240px]">
-          <a href="/" class="flex items-center gap-3 group py-0.5" title="A&S Barber Shop">
-            <div class="relative w-10 h-10 sm:w-11 sm:h-11 rounded-full overflow-hidden border border-stone-700/80 group-hover:border-cyan-400 group-hover:scale-105 shadow-md shadow-black transition duration-300 shrink-0">
+    <header id="cabecera-principal" class="w-full bg-[#0d0c0a]/95 border-b border-cyan-500/20 backdrop-blur-md sticky top-0 z-40 px-3.5 sm:px-8 py-3 sm:py-4 transition duration-200">
+      <div class="max-w-7xl mx-auto flex items-center justify-between gap-2 sm:gap-4">
+        <div class="flex items-center min-w-0">
+          <a href="/" class="flex items-center gap-2.5 sm:gap-3 group py-0.5" title="A&S Barber Shop">
+            <div class="relative w-9 h-9 sm:w-11 sm:h-11 rounded-full overflow-hidden border border-stone-700/80 group-hover:border-cyan-400 group-hover:scale-105 shadow-md shadow-black transition duration-300 shrink-0">
               <img src="/img/logo-solo.png" alt="A&S Barber Shop" class="w-full h-full object-cover" />
             </div>
-            <span class="text-sm sm:text-base font-black tracking-[0.14em] text-white uppercase group-hover:text-cyan-400 transition duration-200">
+            <span class="text-xs sm:text-base font-black tracking-[0.12em] sm:tracking-[0.14em] text-white uppercase group-hover:text-cyan-400 transition duration-200 truncate">
               A&S BARBER SHOP
             </span>
           </a>
@@ -35,19 +35,19 @@
           <a href="#barberos" class="enlace-nav hover:text-cyan-400 transition py-1 border-b-2 border-transparent">Barberos</a>
           <a href="#experiencia" class="enlace-nav hover:text-cyan-400 transition py-1 border-b-2 border-transparent">Experiencia</a>
         </nav>
-        <div class="flex items-center justify-end min-w-[200px] lg:min-w-[240px]">
-          <div id="contenedor-acciones-cabecera" class="flex items-center gap-2.5">
-            <a href="/pages/login.html" id="enlace-iniciar-sesion" class="px-4 py-2 rounded-xl border border-stone-700 hover:border-cyan-500 text-stone-200 hover:text-cyan-400 text-xs font-bold transition">
+        <div class="flex items-center justify-end gap-2 shrink-0">
+          <div id="contenedor-acciones-cabecera" class="flex items-center gap-2">
+            <a href="/pages/login.html" id="enlace-iniciar-sesion" class="hidden sm:inline-flex px-3.5 sm:px-4 py-2 rounded-xl border border-stone-700 hover:border-cyan-500 text-stone-200 hover:text-cyan-400 text-xs font-bold transition">
               Iniciar Sesión
             </a>
-            <a href="/pages/registro.html" id="enlace-registrarse" class="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-stone-950 font-black px-4.5 sm:px-5 py-2 rounded-xl text-xs uppercase tracking-wider shadow-md shadow-cyan-950/50 transition transform active:scale-95">
+            <a href="/pages/registro.html" id="enlace-registrarse" class="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-stone-950 font-black px-3.5 sm:px-5 py-2 rounded-xl text-xs uppercase tracking-wider shadow-md shadow-cyan-950/50 transition transform active:scale-95">
               Registrarme
             </a>
           </div>
-          <div id="contenedor-usuario-activo" class="hidden items-center gap-3">
+          <div id="contenedor-usuario-activo" class="hidden items-center gap-2 sm:gap-3">
             <div class="hidden sm:flex items-center gap-2 text-right">
               <div>
-                <p id="nombre-usuario-cabecera" class="text-xs font-bold text-stone-200">
+                <p id="nombre-usuario-cabecera" class="text-xs font-bold text-stone-200 truncate max-w-[120px]">
                   Usuario
                 </p>
                 <p id="rol-usuario-cabecera" class="text-[10px] text-cyan-400 font-bold uppercase tracking-wider">
@@ -58,23 +58,80 @@
                 U
               </div>
             </div>
-            <a href="/pages/cliente/reservas.html" id="enlace-panel-usuario" class="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-stone-950 font-black px-3.5 py-1.5 rounded-xl text-xs uppercase tracking-wider transition">
+            <a href="/pages/cliente/reservas.html" id="enlace-panel-usuario" class="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-stone-950 font-black px-3 sm:px-3.5 py-1.5 rounded-xl text-xs uppercase tracking-wider transition">
               Mi Panel
             </a>
             <button type="button" id="btn-cerrar-sesion-cabecera" class="p-2 rounded-xl border border-red-700/40 text-red-400 hover:bg-red-950/40 text-xs transition cursor-pointer" title="Cerrar sesión">
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path> </svg>
             </button>
           </div>
+          <button type="button" id="btn-menu-movil" class="lg:hidden p-2 rounded-xl border border-stone-800 text-stone-300 hover:text-cyan-400 hover:border-cyan-500/40 bg-[#141210] transition focus:outline-none cursor-pointer" aria-label="Abrir menú de navegación">
+            <svg id="icono-menu-abrir" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+            <svg id="icono-menu-cerrar" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
         </div>
       </div>
       <div id="barra-progreso-scroll" class="absolute bottom-0 left-0 h-[2.5px] bg-gradient-to-r from-cyan-400 via-sky-400 to-amber-400 w-0 transition-[width] duration-75 ease-out shadow-sm shadow-cyan-400/50"></div>
+      <div id="menu-movil-desplegable" class="hidden lg:hidden border-t border-stone-800/90 bg-[#0d0c0a]/98 backdrop-blur-2xl px-4 py-5 space-y-4 shadow-2xl transition-all duration-300">
+        <nav class="flex flex-col space-y-1.5 text-xs sm:text-sm font-bold uppercase tracking-wider text-stone-300">
+          <a href="#inicio" class="enlace-nav-movil flex items-center justify-between py-2.5 px-3 rounded-xl hover:bg-stone-900/80 hover:text-cyan-400 transition">
+            <span>Inicio</span>
+            <span class="text-xs text-stone-500">↗</span>
+          </a>
+          <a href="#servicios" class="enlace-nav-movil flex items-center justify-between py-2.5 px-3 rounded-xl hover:bg-stone-900/80 hover:text-cyan-400 transition">
+            <span>Servicios & Tarifas</span>
+            <span class="text-xs text-stone-500">↗</span>
+          </a>
+          <a href="#sede" class="enlace-nav-movil flex items-center justify-between py-2.5 px-3 rounded-xl hover:bg-stone-900/80 hover:text-cyan-400 transition">
+            <span>Nuestra Sede</span>
+            <span class="text-xs text-stone-500">↗</span>
+          </a>
+          <a href="#barberos" class="enlace-nav-movil flex items-center justify-between py-2.5 px-3 rounded-xl hover:bg-stone-900/80 hover:text-cyan-400 transition">
+            <span>Maestros Barberos</span>
+            <span class="text-xs text-stone-500">↗</span>
+          </a>
+          <a href="#experiencia" class="enlace-nav-movil flex items-center justify-between py-2.5 px-3 rounded-xl hover:bg-stone-900/80 hover:text-cyan-400 transition">
+            <span>Experiencia A&S</span>
+            <span class="text-xs text-stone-500">↗</span>
+          </a>
+        </nav>
+        <div id="acciones-menu-movil" class="pt-3 border-t border-stone-800/80 flex flex-col gap-2">
+          <a href="/pages/login.html" class="w-full py-2.5 text-center rounded-xl border border-stone-700 hover:border-cyan-500 text-stone-200 text-xs font-bold transition">
+            Iniciar Sesión
+          </a>
+          <a href="/pages/registro.html" class="w-full py-2.5 text-center bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 text-stone-950 font-black text-xs uppercase tracking-wider rounded-xl shadow-md transition">
+            Registrarme
+          </a>
+        </div>
+        <div id="usuario-menu-movil" class="hidden pt-3 border-t border-stone-800/80 flex-col gap-2.5">
+          <div class="flex items-center gap-3 px-2 py-1">
+            <div id="avatar-usuario-movil" class="w-9 h-9 rounded-full bg-gradient-to-br from-cyan-500 to-blue-700 text-black font-extrabold flex items-center justify-center text-xs shadow-md">
+              U
+            </div>
+            <div>
+              <p id="nombre-usuario-movil" class="text-xs font-bold text-stone-200">Usuario</p>
+              <p id="rol-usuario-movil" class="text-[10px] text-cyan-400 font-bold uppercase tracking-wider">Cliente</p>
+            </div>
+          </div>
+          <a href="/pages/cliente/reservas.html" id="enlace-panel-usuario-movil" class="w-full py-2.5 text-center bg-gradient-to-r from-cyan-500 to-blue-600 text-stone-950 font-black text-xs uppercase tracking-wider rounded-xl transition">
+            Ir a Mi Panel
+          </a>
+          <button type="button" id="btn-cerrar-sesion-movil" class="w-full py-2 text-center rounded-xl border border-red-700/40 text-red-400 hover:bg-red-950/40 text-xs font-semibold transition cursor-pointer">
+            Cerrar Sesión
+          </button>
+        </div>
+      </div>
     </header>
     <main class="flex-1">
       <section id="inicio" class="relative w-full overflow-hidden bg-[#0a0908] border-b border-stone-800/80 min-h-[calc(100vh-73px)] flex flex-col justify-between">
         <div class="absolute inset-0 z-0 w-full h-full">
-          <img src="/img/as-poster-bn.jpg" alt="A&S Barber Shop Miraflores Poster B&N" class="w-full h-full object-cover filter brightness-[0.90] contrast-[1.15]" style="object-position: right 3%" />
-          <div class="absolute inset-0 bg-gradient-to-r from-[#0a0908] via-[#0a0908] via-60% to-transparent w-full lg:w-[75%]"></div>
-          <div class="absolute inset-0 bg-gradient-to-t from-[#0a0908] via-[#0a0908]/40 to-transparent"></div>
+          <img src="/img/as-poster-bn.jpg" alt="A&S Barber Shop Miraflores Poster B&N" class="w-full h-full object-cover filter brightness-[0.70] sm:brightness-[0.90] contrast-[1.15]" style="object-position: right 3%" />
+          <div class="absolute inset-0 bg-gradient-to-b sm:bg-gradient-to-r from-[#0a0908] via-[#0a0908]/95 sm:via-[#0a0908] sm:via-60% to-transparent w-full lg:w-[75%]"></div>
+          <div class="absolute inset-0 bg-gradient-to-t from-[#0a0908] via-[#0a0908]/50 to-transparent"></div>
         </div>
         <div class="relative z-10 max-w-7xl mx-auto w-full my-auto flex items-center px-4 sm:px-8 py-8 sm:py-12">
           <div class="max-w-3xl space-y-6 scroll-reveal">
@@ -82,15 +139,15 @@
               <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
               <span>SEDE MIRAFLORES · GALERÍA PARDO</span>
             </div>
-            <h1 class="text-4xl sm:text-6xl lg:text-7xl xl:text-[4.6rem] font-display text-white tracking-tight leading-[1.0] uppercase">
+            <h1 class="text-3xl sm:text-5xl lg:text-7xl xl:text-[4.6rem] font-display text-white tracking-tight leading-[1.05] sm:leading-[1.0] uppercase">
               TU ESTILO
               <span class="bg-gradient-to-r from-cyan-400 via-sky-300 to-blue-400 bg-clip-text text-transparent block pt-1.5 pb-1">COMIENZA AQUÍ</span>
             </h1>
             <p class="text-stone-300 text-xs sm:text-sm leading-relaxed max-w-lg">
               Cortes de autor a tijera, degradados modernos y el auténtico ritual de afeitado clásico con toalla caliente y navaja.
             </p>
-            <div class="flex flex-col sm:flex-row items-center gap-3.5 pt-2">
-              <a href="/pages/cliente/reservas.html" id="btn-reservar-hero" class="w-full sm:w-auto bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-stone-950 font-black px-7 py-3.5 rounded-xl text-xs sm:text-sm uppercase tracking-wider shadow-lg shadow-cyan-950/60 flex items-center justify-center gap-2 transition transform active:scale-95">
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
+              <a href="/pages/cliente/reservas.html" id="btn-reservar-hero" class="w-full sm:w-auto bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-stone-950 font-black px-6 sm:px-7 py-3.5 rounded-xl text-xs sm:text-sm uppercase tracking-wider shadow-lg shadow-cyan-950/60 flex items-center justify-center gap-2 transition transform active:scale-95 text-center">
                 <span>Reservar mi Cita Online</span>
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path> </svg>
               </a>
@@ -98,7 +155,7 @@
                 Ver Servicios & Tarifas
               </a>
             </div>
-            <div class="pt-4 flex items-center gap-6 text-xs text-stone-400 border-t border-stone-800/80">
+            <div class="pt-4 flex flex-wrap sm:flex-nowrap items-center gap-x-5 gap-y-2 text-xs text-stone-400 border-t border-stone-800/80">
               <div class="flex items-center gap-2">
                 <span class="text-cyan-400 text-base font-bold">✓</span>
                 <span>Sin esperas ni colas</span>

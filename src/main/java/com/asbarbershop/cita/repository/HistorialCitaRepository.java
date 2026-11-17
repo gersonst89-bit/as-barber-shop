@@ -19,4 +19,3 @@ public interface HistorialCitaRepository extends JpaRepository<HistorialCita, In
     })
     List<HistorialCita> findByCitaIdCitaOrderByFechaCambioAsc(Integer idCita);
 }
-
